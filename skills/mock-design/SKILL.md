@@ -5,6 +5,8 @@ description: Mock system design with fundamentals-first deliberate practice. Use
 
 # Mock Design
 
+Shared flows: `skills/_shared/flows.md`
+
 ## Goal
 
 Guide a system design exercise through fundamentals, stretch zones, and Feynman verification — then persist artifacts.
@@ -39,6 +41,8 @@ Walk through interactively:
 
 Do not dump the full design without dialogue unless user asks.
 
+Apply **Deliberate-practice feedback** (§1.6) after each user design choice.
+
 ### 4. Deliberate practice — stretch zones
 
 Explicitly walk four cases:
@@ -47,17 +51,15 @@ Explicitly walk four cases:
 - **100x** — what breaks?
 - **Pathological** — worst realistic failure
 
-Ask the user to identify breaks before you confirm.
+Ask the user to identify breaks before you confirm. Apply **Deliberate-practice feedback** (§1.6).
 
 ### 5. Historical lens
 
-Ask: **"Name 2 existing systems this resembles. What did they get wrong?"**
+Run **Historical lens** (§1.3).
 
 ### 6. Feynman gate (before save)
 
-Ask the user to explain the data flow in one paragraph **without naming components** (use roles: "the gateway", "the store").
-
-Identify gaps. User revises once.
+Run **Feynman gate** with mock-design variant (§1.1).
 
 ### 7. Write artifacts
 
@@ -65,7 +67,7 @@ When the design is coherent or the user asks to save.
 
 ### 8. Reflect
 
-Write `reflection.md`.
+Write `reflection.md` using **Reflection schema** (§1.7).
 
 ## Artifacts
 
@@ -120,20 +122,6 @@ Corrections or misjudgments surfaced during the session.
 ```
 
 Document key forks: database choice, consistency model, sharding strategy, etc.
-
-### `reflection.md`
-
-```markdown
-# <Design Title> — Reflection
-
-## What I thought before
-
-## What changed
-
-## What I'd explain differently now
-
-## One question still open
-```
 
 ## Rules
 

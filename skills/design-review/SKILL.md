@@ -5,6 +5,8 @@ description: Double-loop design review. User defends design first; agent steel-m
 
 # Design Review
 
+Shared flows: `skills/_shared/flows.md`
+
 ## Goal
 
 Stress-test the user's design through defense, steel-manning, and double-loop feedback — then persist artifacts.
@@ -25,6 +27,8 @@ Before critiquing, ask:
 
 Wait for the user's answers. Do not review until they respond.
 
+Apply **Deliberate-practice feedback** (§1.6) on their defense.
+
 ### 2. Steel-man
 
 Summarize the **strongest version** of their design in 2–3 sentences. Confirm: "Is this what you intended?"
@@ -33,21 +37,19 @@ Summarize the **strongest version** of their design in 2–3 sentences. Confirm:
 
 Identify strengths, gaps, risks, and open questions. Be direct — principal-level review, not praise sandwich.
 
-Ask: **"What evidence would change your mind about this design?"**
+Run **Double-loop prompt** (§1.5).
 
 Discuss interactively if the user wants to explore alternatives.
 
 ### 4. Historical lens
 
-Ask: **"What prior systems or patterns does this resemble? What did they get wrong in production?"**
-
-Add findings to artifacts under **Prior art**.
+Run **Historical lens** (§1.3). Add findings to artifacts under **Prior art**.
 
 ### 5. Write artifacts
 
 ### 6. Reflect
 
-Write `reflection.md`.
+Write `reflection.md` using **Reflection schema** (§1.7). Title prefix: `Design Review — <Subject>`.
 
 ## Artifacts
 
@@ -96,20 +98,6 @@ User's updated beliefs after review (double-loop).
 ```
 
 If `overview.md` already exists, merge the Design Review section — replace an existing Design Review block if present; do not duplicate unrelated content.
-
-### `reflection.md`
-
-```markdown
-# Design Review — <Subject> — Reflection
-
-## What I thought before
-
-## What changed
-
-## What I'd explain differently now
-
-## One question still open
-```
 
 ## Rules
 

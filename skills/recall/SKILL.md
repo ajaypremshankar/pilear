@@ -5,6 +5,8 @@ description: Retrieval practice on a topic the user studied before. Reads existi
 
 # Recall
 
+Shared flows: `skills/_shared/flows.md`
+
 ## Goal
 
 Strengthen retention through retrieval practice (FS / Make It Stick). No teaching until after the user attempts recall.
@@ -29,20 +31,17 @@ Do not reveal answers until the user attempts each question.
 
 ### 2. Feedback
 
-For each answer:
-- What was correct
-- What was wrong or incomplete
-- One sentence from the source artifact as anchor (not a lecture)
+For each answer, apply **Deliberate-practice feedback** (§1.6). Use one sentence from the source artifact as anchor (not a lecture).
 
 ### 3. Name test
 
-Pick one key term. Ask user to explain the concept **without using that term**.
+Run **Name test** (§1.2).
 
 ### 4. Update artifacts
 
 Append to `overview.md` under **Open gaps** — new gaps exposed by recall.
 
-Update or create `reflection.md` with what changed since last session.
+Write `reflection.md` using **Reflection schema** (§1.7).
 
 Do not rewrite the full overview unless the user asks — recall is retrieval, not re-teaching.
 

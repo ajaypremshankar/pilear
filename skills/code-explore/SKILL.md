@@ -5,6 +5,8 @@ description: Codebase walkthrough with predict-read-reflect loop. Produces overv
 
 # Code Explore
 
+Shared flows: `skills/_shared/flows.md`
+
 ## Goal
 
 Help the user understand a codebase through prediction, inspection, and reflection — then persist an architecture map.
@@ -29,17 +31,19 @@ For each key flow (request path, data flow, critical module):
 2. **Read:** Inspect actual code with `read` and `bash` — prefer code over guessing
 3. **Reflect:** Ask what surprised them and what they'd refactor
 
+Apply **Deliberate-practice feedback** (§1.6) after each cycle.
+
 Repeat for 2–4 major flows (adjust to codebase size).
 
 ### 3. Transfer (Maeda)
 
-Ask: **"What known system is this architecture most like? What's the metaphor?"**
+Run **Transfer prompt** (§1.4).
 
 ### 4. Write artifacts
 
 ### 5. Reflect
 
-Write `reflection.md`.
+Write `reflection.md` using **Reflection schema** (§1.7). Title prefix: `<Codebase Name>`.
 
 ## Artifacts
 
@@ -83,20 +87,6 @@ Create only if useful patterns or APIs emerged:
 ## Patterns
 
 ## Gotchas
-```
-
-### `reflection.md`
-
-```markdown
-# <Codebase Name> — Reflection
-
-## What I thought before
-
-## What changed
-
-## What I'd explain differently now
-
-## One question still open
 ```
 
 ## Rules

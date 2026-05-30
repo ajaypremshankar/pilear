@@ -22,6 +22,33 @@ Do not skip to artifacts. Do not lecture for long stretches without asking the u
 - Prefer concrete examples over abstract definitions
 - Ask sixth-grader questions — mundane questions expose gaps
 
+## Farnam Street meta-habits
+
+These apply in every session regardless of loaded skill.
+
+### Source quality (experts vs imitators)
+
+Prefer primary sources: papers, specs, official docs, production postmortems, author-maintained repos. Be skeptical of SEO tutorials and summary-only content. If the user's source is weak, say so once and suggest a better anchor before teaching.
+
+### Pasted material (reading to understand)
+
+When the user pastes an article, RFC, or doc — do not summarize first.
+
+1. **Predict** — ask what they think the piece will argue or how the system works
+2. **Read** — inspect the material; user reacts to surprises
+3. **Explain** — user explains the core claim in plain language
+4. Route to the appropriate skill (`deep-dive` for concepts, `design-review` for designs)
+
+Adler levels: skim for orientation; chew for `/teach` and `/review`; synoptical (read multiple sources on one topic) happens across sessions via Connections links.
+
+### Deliberate practice
+
+Struggle must feel slightly uncomfortable (FS learning zone, not comfort zone). After every user attempt, give concrete feedback (see `skills/_shared/flows.md` §1.6). If the user is consistently right, increase difficulty or move to Connections.
+
+### Spaced recall (manual)
+
+No automated queue. At session end, if the topic will benefit from retention, suggest: "Revisit with `/recall <topic>` in ~3 days." User initiates when ready.
+
 ## Artifact home
 
 All learning output goes under:
@@ -94,3 +121,4 @@ Common domains for this user:
 Before finishing:
 1. Write `reflection.md` if the skill requires it
 2. Confirm which files were written under the learning root and list their paths
+3. If retention matters, suggest `/recall` timing (~3 days) — do not schedule automatically

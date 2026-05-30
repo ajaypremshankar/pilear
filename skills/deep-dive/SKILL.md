@@ -5,6 +5,8 @@ description: Principal-level technical deep dive using Feynman Technique. User e
 
 # Deep Dive
 
+Shared flows: `skills/_shared/flows.md`
+
 ## Goal
 
 Teach a topic at principal depth through retrieval, explanation, and gap-filling — then persist artifacts.
@@ -32,19 +34,19 @@ Ask 2–3 simple questions that expose gaps (FS: mundane questions teach the mos
 
 Discuss tradeoffs, failure modes, and prod gotchas at principal depth. Stay interactive — after each major point, ask the user to react or extend.
 
+Apply **Deliberate-practice feedback** (§1.6) after each user reaction.
+
 Ask at most one clarifying question if needed.
 
 ### 4. Feynman gate (required before artifacts)
 
-Ask the user to explain the topic **without jargon**, as if to a smart sixth-grader.
-
-Then ask the **name test**: rephrase a key mechanism without using the technical term (e.g. explain how Raft elects a leader without saying "Raft" or "leader election").
-
-Identify gaps between their explanation and the source material. User revises once.
+Run **Feynman gate** (§1.1).
 
 ### 5. Historical lens (optional, 2 min)
 
-Ask: **"What existing systems or prior art does this resemble? What did they get wrong?"**
+Run **Historical lens** (§1.3).
+
+For abstract topics, optionally run **Transfer prompt** (§1.4).
 
 ### 6. Write artifacts
 
@@ -52,7 +54,7 @@ Only after steps 1–5.
 
 ### 7. Reflect
 
-Write `reflection.md` (see schema below).
+Write `reflection.md` using **Reflection schema** (§1.7).
 
 ## Artifacts
 
@@ -99,22 +101,6 @@ What could falsify or outdated this within ~12 months.
 ```
 
 Keep scannable in ~2 minutes. Use tables and bullet lists.
-
-### `reflection.md`
-
-```markdown
-# <Topic Title> — Reflection
-
-## What I thought before
-
-## What changed
-
-## What I'd explain differently now
-
-## One question still open
-```
-
-Populate from the session dialogue. Use the user's voice where possible.
 
 ## Rules
 
