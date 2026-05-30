@@ -1,8 +1,16 @@
 {
   "name": "pilear",
-  "version": "0.1.0",
-  "description": "Pi.dev harness for principal-level technical learning",
+  "version": "0.2.0",
+  "description": "Pi.dev harness for principal-level technical learning (Farnam Street frameworks)",
   "keywords": ["pi-package"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ajaypremshankar/pilear.git"
+  },
+  "homepage": "https://github.com/ajaypremshankar/pilear",
+  "bugs": {
+    "url": "https://github.com/ajaypremshankar/pilear/issues"
+  },
   "pi": {
     "extensions": ["./extensions/learning-root.ts"],
     "skills": ["./skills"],
