@@ -12,6 +12,23 @@ No passive lectures. User explains before artifacts are written.
 
 ## Install
 
+Enable pilear in **the current folder** (writes `.pi/settings.json` here; does not touch global `~/.pi/agent/settings.json`):
+
+```bash
+# Any folder — one-liner
+curl -fsSL https://raw.githubusercontent.com/ajaypremshankar/pilear/main/scripts/install.sh | bash
+
+# From a clone
+./scripts/install.sh
+```
+
+The script installs the `pi` CLI if missing, runs `pi install -l`, and sets `enableSkillCommands: true`. Re-run anytime — it is idempotent.
+
+No `learningRoot` config needed — it defaults to **where you run `pi`**.
+
+<details>
+<summary>Manual global install (optional)</summary>
+
 ```bash
 pi install git:github.com/ajaypremshankar/pilear
 ```
@@ -25,7 +42,7 @@ Add to `~/.pi/agent/settings.json`:
 }
 ```
 
-No `learningRoot` config needed — it defaults to **where you run `pi`**.
+</details>
 
 ## Learning root
 
@@ -41,7 +58,7 @@ Examples:
 
 ```bash
 cd ~/notes && pi          # artifacts → ~/notes/<domain>/<subject>/
-cd pilear/topics && pi    # artifacts → pilear/topics/<domain>/<subject>/
+mkdir ~/learning && cd ~/learning && pi   # same pattern in any folder
 ```
 
 Check in session: `/learning-root`
@@ -66,10 +83,10 @@ pilear/
 ├── extensions/           # learning-root resolver
 ├── skills/
 ├── prompts/
-└── topics/               # Example content dir — run pi from here
+└── scripts/              # install.sh, validate-harness.sh
 ```
 
-Configure the harness in `~/.pi/agent/settings.json`. Run `pi` from the folder where you want artifacts to live.
+Run `./scripts/install.sh` (or the curl one-liner) in the folder where you want artifacts to live, then start `pi` there.
 
 ## Validate
 

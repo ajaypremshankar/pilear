@@ -15,6 +15,9 @@ require_grep() {
   grep -q "$2" "$1" || fail "expected pattern in $1: $2"
 }
 
+require_file "scripts/install.sh"
+[[ -x "scripts/install.sh" ]] || fail "scripts/install.sh must be executable"
+
 require_file "package.json"
 require_file "HARNESS.md"
 require_file "extensions/learning-root.ts"
