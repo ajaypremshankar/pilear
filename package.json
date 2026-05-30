@@ -1,0 +1,14 @@
+{
+  "name": "pilear",
+  "version": "0.1.0",
+  "description": "Pi.dev harness for principal-level technical learning",
+  "keywords": ["pi-package"],
+  "pi": {
+    "extensions": ["./extensions/learning-root.ts"],
+    "skills": ["./skills"],
+    "prompts": ["./prompts"]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  }
+}

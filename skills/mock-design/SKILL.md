@@ -13,7 +13,7 @@ Guide the user through a system design exercise and persist the result.
 
 1. Parse the design prompt (requirements, scale, constraints)
 2. Infer `<domain>` and `<subject>` (or ask one question)
-3. Target path: `topics/<domain>/<subject>/`
+3. Target path: `<learning-root>/<domain>/<subject>/` (use the active learning root from session context)
 
 ## Flow
 

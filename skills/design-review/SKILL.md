@@ -13,7 +13,7 @@ Critically review the user's design and persist structured feedback.
 
 1. Read the pasted design carefully
 2. Infer `<domain>` and `<subject>` from content (or ask one question)
-3. Target path: `topics/<domain>/<subject>/`
+3. Target path: `<learning-root>/<domain>/<subject>/` (use the active learning root from session context)
 
 ## Flow
 

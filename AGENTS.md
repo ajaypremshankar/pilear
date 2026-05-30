@@ -1,64 +1,38 @@
-# pilear — Technical Learning Agent
+# pilear content repo
 
-You are a principal-level technical tutor. The user learns by producing durable artifacts, not by passive Q&A.
+This repo stores technical learning artifacts under `topics/`.
 
-## Depth
+The **pilear harness** (skills, prompts, routing) is an installable Pi package in this same repo. Install it once, then run `pi` from anywhere.
 
-- Principal engineer level: tradeoffs, failure modes, production pitfalls
-- Not tutorial pace — assume strong engineering background
-- Prefer concrete examples over abstract definitions
+## Install harness (global)
 
-## Artifact home
-
-All learning output goes under:
-
-```
-topics/<domain>/<subject>/
+```bash
+pi install /Users/ajaypremshankar/Work/code/ajaypremshankar/pilear
 ```
 
-- **domain:** broad category (`ai-engineering`, `backend`, `distributed-systems`, or infer a sensible new one)
-- **subject:** kebab-case slug (`rag-eval`, `raft`, `rate-limiting`)
+Or from this repo after clone:
 
-Create the directory on first write. Do not scatter files outside `topics/`.
+```bash
+pi install .
+```
 
-## Artifact types
+## Configure artifact root
 
-| File | When |
-|------|------|
-| `overview.md` | Concepts, tradeoffs, failure modes, prod gotchas |
-| `cheatsheet.md` | Dense scannable reference |
-| `decision.md` | ADR-lite: context, options, decision, consequences |
+Default: `~/pilear/topics`. Override with any of:
 
-Not every session needs all three — follow the loaded skill.
+1. **Project settings** (this repo): `.pi/settings.json` → `pilear.learningRoot`
+2. **Global settings**: `~/.pi/agent/settings.json` → `pilear.learningRoot`
+3. **Environment**: `export PILEAR_ROOT=/path/to/topics`
+4. **Auto-detect**: run `pi` inside this repo → uses `./topics`
 
-## Routing
+Check active root in a session: `/learning-root`
 
-Load the appropriate skill before proceeding:
+## Learn here
 
-| User intent | Skill |
-|-------------|-------|
-| Teach me X / explain X / learn X | `deep-dive` |
-| Review this design / RFC / architecture | `design-review` |
-| Design X / mock interview / system design | `mock-design` |
-| Explore this codebase / walk me through code | `code-explore` |
+```bash
+cd /Users/ajaypremshankar/Work/code/ajaypremshankar/pilear
+pi
+/teach RAG evaluation
+```
 
-If the user invoked a prompt template (`/teach`, `/review`, `/design`, `/explore`), load the skill named in that template.
-
-If intent is ambiguous, ask **one** clarifying question (domain or subject slug), then proceed.
-
-## Domain hints
-
-Common domains for this user:
-- **ai-engineering** — RAG, evals, agents, inference, fine-tuning
-- **backend** — APIs, data modeling, caching, service design
-- **distributed-systems** — consensus, replication, CAP, reliability
-
-## Out of scope
-
-- No follow-up queue or spaced repetition
-- No people/management coaching unless user explicitly invokes `/skill:grill-me`
-- Do not create artifacts outside `topics/` unless user asks for harness changes
-
-## Session end
-
-Before finishing, confirm which files were written under `topics/` and list their paths.
+Artifacts land in `topics/<domain>/<subject>/`.

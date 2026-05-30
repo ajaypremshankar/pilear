@@ -15,30 +15,37 @@ require_grep() {
   grep -q "$2" "$1" || fail "expected pattern in $1: $2"
 }
 
-require_file "AGENTS.md"
+require_file "package.json"
+require_file "HARNESS.md"
+require_file "extensions/learning-root.ts"
 require_file ".pi/settings.json"
 python3 -c "import json; json.load(open('.pi/settings.json'))" \
   || fail "invalid JSON: .pi/settings.json"
-require_file ".pi/prompts/teach.md"
-require_file ".pi/prompts/review.md"
-require_file ".pi/prompts/design.md"
-require_file ".pi/prompts/explore.md"
-require_file ".pi/skills/deep-dive/SKILL.md"
-require_file ".pi/skills/design-review/SKILL.md"
-require_file ".pi/skills/mock-design/SKILL.md"
-require_file ".pi/skills/code-explore/SKILL.md"
+python3 -c "import json; d=json.load(open('package.json')); assert 'pi' in d" \
+  || fail "package.json missing pi manifest"
+
+require_file "prompts/teach.md"
+require_file "prompts/review.md"
+require_file "prompts/design.md"
+require_file "prompts/explore.md"
+require_file "skills/deep-dive/SKILL.md"
+require_file "skills/design-review/SKILL.md"
+require_file "skills/mock-design/SKILL.md"
+require_file "skills/code-explore/SKILL.md"
 
 for skill in deep-dive design-review mock-design code-explore; do
-  f=".pi/skills/${skill}/SKILL.md"
+  f="skills/${skill}/SKILL.md"
   require_grep "$f" "^name: ${skill}$"
   require_grep "$f" "^description:"
 done
 
-require_grep "AGENTS.md" "topics/<domain>/<subject>/"
-require_grep "AGENTS.md" "principal"
-require_grep ".pi/prompts/teach.md" "deep-dive"
-require_grep ".pi/prompts/review.md" "design-review"
-require_grep ".pi/prompts/design.md" "mock-design"
-require_grep ".pi/prompts/explore.md" "code-explore"
+require_grep "HARNESS.md" "<learning-root>/<domain>/<subject>/"
+require_grep "HARNESS.md" "principal"
+require_grep "prompts/teach.md" "deep-dive"
+require_grep "prompts/review.md" "design-review"
+require_grep "prompts/design.md" "mock-design"
+require_grep "prompts/explore.md" "code-explore"
+require_grep "extensions/learning-root.ts" "PILEAR_ROOT"
+require_grep ".pi/settings.json" "learningRoot"
 
 pass "harness structure"

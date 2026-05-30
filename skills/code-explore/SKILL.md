@@ -13,7 +13,7 @@ Help the user understand a codebase and persist an architecture map.
 
 1. Confirm the path to explore (argument or user message)
 2. Infer `<domain>` and `<subject>` from repo name or topic (or ask one question)
-3. Target path: `topics/<domain>/<subject>/`
+3. Target path: `<learning-root>/<domain>/<subject>/` (use the active learning root from session context)
 
 ## Flow
 

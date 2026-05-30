@@ -1,6 +1,6 @@
 ---
 name: deep-dive
-description: Principal-level technical deep dive on a topic. Produces overview.md and cheatsheet.md under topics/. Use for teach-me, explain X, learn X, or /teach sessions.
+description: Principal-level technical deep dive on a topic. Produces overview.md and cheatsheet.md under the learning root. Use for teach-me, explain X, learn X, or /teach sessions.
 ---
 
 # Deep Dive
@@ -13,7 +13,7 @@ Teach the user a topic at principal depth and persist two artifacts.
 
 1. Infer `<domain>` and `<subject>` from the topic
 2. If ambiguous, ask one question to confirm domain or subject slug
-3. Target path: `topics/<domain>/<subject>/`
+3. Target path: `<learning-root>/<domain>/<subject>/` (use the active learning root from session context)
 
 ## Flow
 
