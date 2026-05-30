@@ -1,7 +1,6 @@
 {
   "packages": ["."],
   "enableSkillCommands": true,
-  "skills": [".agents/skills"],
   "pilear": {
     "learningRoot": "./topics"
   }

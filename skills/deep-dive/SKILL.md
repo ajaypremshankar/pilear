@@ -64,4 +64,3 @@ Keep the cheat sheet scannable in ~2 minutes. Use tables and bullet lists.
 
 - Write both files unless the user explicitly asks for overview only
 - Do not create `decision.md` in deep-dive sessions
-- End by listing written file paths

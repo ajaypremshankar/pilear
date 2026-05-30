@@ -62,4 +62,3 @@ Create only if useful patterns or APIs emerged:
 
 - Prefer reading actual code over guessing
 - Do not create `decision.md` unless user is evaluating architectural forks
-- End by listing written file paths

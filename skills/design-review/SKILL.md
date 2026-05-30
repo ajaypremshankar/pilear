@@ -66,4 +66,3 @@ If `overview.md` already exists, append or merge the Design Review section — d
 
 - Be direct — principal-level review, not praise sandwich
 - Do not create `cheatsheet.md` unless user asks
-- End by listing written file paths

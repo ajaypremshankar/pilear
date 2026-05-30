@@ -60,7 +60,6 @@ Common domains for this user:
 ## Out of scope
 
 - No follow-up queue or spaced repetition
-- No people/management coaching unless user explicitly invokes `/skill:grill-me`
 - Do not create artifacts outside the learning root unless user asks for harness changes
 
 ## Session end

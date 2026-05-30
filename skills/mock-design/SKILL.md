@@ -66,4 +66,3 @@ Document key forks: database choice, consistency model, sharding strategy, etc.
 
 - Interactive — do not dump the full design without dialogue unless user asks
 - Do not create `cheatsheet.md` unless patterns emerge worth capturing
-- End by listing written file paths
