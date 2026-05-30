@@ -17,6 +17,8 @@ require_grep() {
 
 require_file "AGENTS.md"
 require_file ".pi/settings.json"
+python3 -c "import json; json.load(open('.pi/settings.json'))" \
+  || fail "invalid JSON: .pi/settings.json"
 require_file ".pi/prompts/teach.md"
 require_file ".pi/prompts/review.md"
 require_file ".pi/prompts/design.md"

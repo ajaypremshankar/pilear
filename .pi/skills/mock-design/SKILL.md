@@ -55,9 +55,9 @@ Guide the user through a system design exercise and persist the result.
 
 ## Options considered
 
-## Decision
+## Decision / assessment
 
-## Consequences
+## Consequences and risks
 ```
 
 Document key forks: database choice, consistency model, sharding strategy, etc.

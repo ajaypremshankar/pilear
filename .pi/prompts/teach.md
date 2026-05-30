@@ -5,8 +5,6 @@ argument-hint: "<topic>"
 
 Load the `deep-dive` skill (read `.pi/skills/deep-dive/SKILL.md`) and follow it.
 
-Topic: $1
-
-Additional context: $@
+Topic: $@
 
 Write artifacts under `topics/<domain>/<subject>/`.
