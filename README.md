@@ -16,33 +16,32 @@ No passive lectures. User explains before artifacts are written.
 pi install git:github.com/ajaypremshankar/pilear
 ```
 
-Or clone and install locally:
-
-```bash
-git clone https://github.com/ajaypremshankar/pilear.git
-cd pilear
-pi install .
-```
-
-## Learning root
-
-| Method | Config |
-|--------|--------|
-| Project | `.pi/settings.json` → `pilear.learningRoot` (default: `./topics`) |
-| Global | `~/.pi/agent/settings.json` → `pilear.learningRoot` |
-| Env | `PILEAR_ROOT=/path/to/topics` |
-| Auto | Run `pi` in this repo → `./topics` |
-| Fallback | `~/pilear/topics` |
-
-Example global settings (artifacts in cloned repo):
+Add to `~/.pi/agent/settings.json`:
 
 ```json
 {
   "packages": ["git:github.com/ajaypremshankar/pilear"],
-  "pilear": {
-    "learningRoot": "/path/to/pilear/topics"
-  }
+  "enableSkillCommands": true
 }
+```
+
+No `learningRoot` config needed — it defaults to **where you run `pi`**.
+
+## Learning root
+
+Artifacts are written under `<domain>/<subject>/` relative to the **current working directory** where you started pi.
+
+| Method | Result |
+|--------|--------|
+| **Default** | `cwd` — the folder you're in when you run `pi` |
+| Override | `PILEAR_ROOT=/path` env var |
+| Override | `pilear.learningRoot` in `~/.pi/agent/settings.json` (relative paths resolve from `cwd`) |
+
+Examples:
+
+```bash
+cd ~/notes && pi          # artifacts → ~/notes/<domain>/<subject>/
+cd pilear/topics && pi    # artifacts → pilear/topics/<domain>/<subject>/
 ```
 
 Check in session: `/learning-root`
@@ -62,13 +61,15 @@ Check in session: `/learning-root`
 
 ```
 pilear/
-├── package.json
+├── package.json          # Pi package (install via pi install)
 ├── HARNESS.md            # Tutor persona + FS learning loop
 ├── extensions/           # learning-root resolver
-├── skills/               # deep-dive, design-review, mock-design, code-explore, recall
+├── skills/
 ├── prompts/
-└── topics/               # Learning artifacts
+└── topics/               # Example content dir — run pi from here
 ```
+
+Configure the harness in `~/.pi/agent/settings.json`. Run `pi` from the folder where you want artifacts to live.
 
 ## Validate
 

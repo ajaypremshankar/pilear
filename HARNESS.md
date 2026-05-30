@@ -30,7 +30,7 @@ All learning output goes under:
 <learning-root>/<domain>/<subject>/
 ```
 
-The active learning root is injected each turn by the pilear extension. Do not write artifacts elsewhere.
+The active learning root is the directory where pi was started (`cwd`), injected each turn by the pilear extension. Do not write artifacts elsewhere.
 
 - **domain:** broad category (`ai-engineering`, `backend`, `distributed-systems`, or infer a sensible new one)
 - **subject:** kebab-case slug (`rag-eval`, `raft`, `rate-limiting`)

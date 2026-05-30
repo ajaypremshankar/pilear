@@ -27,3 +27,5 @@ Pi creates folders on first write.
 Sessions follow: retrieve → struggle → explain (Feynman) → gap-fill → artifact → reflect.
 
 Use `/recall <topic>` later to test retention without re-teaching.
+
+Run `pi` from this directory to store artifacts here (`topics/<domain>/<subject>/`).

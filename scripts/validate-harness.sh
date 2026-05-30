@@ -18,9 +18,6 @@ require_grep() {
 require_file "package.json"
 require_file "HARNESS.md"
 require_file "extensions/learning-root.ts"
-require_file ".pi/settings.json"
-python3 -c "import json; json.load(open('.pi/settings.json'))" \
-  || fail "invalid JSON: .pi/settings.json"
 python3 -c "import json; d=json.load(open('package.json')); assert 'pi' in d" \
   || fail "package.json missing pi manifest"
 
@@ -53,6 +50,6 @@ require_grep "prompts/design.md" "mock-design"
 require_grep "prompts/explore.md" "code-explore"
 require_grep "prompts/recall.md" "recall"
 require_grep "extensions/learning-root.ts" "PILEAR_ROOT"
-require_grep ".pi/settings.json" "learningRoot"
+require_grep "extensions/learning-root.ts" "resolve(cwd)"
 
 pass "harness structure"

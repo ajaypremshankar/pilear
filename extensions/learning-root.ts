@@ -34,31 +34,18 @@ function findSettingsPaths(cwd: string): string[] {
   return paths;
 }
 
-function resolveConfiguredRoot(raw: string, baseDir: string): string {
-  if (raw.startsWith("~/")) {
-    return resolve(homedir(), raw.slice(2));
+function resolveConfiguredRoot(raw: string, cwd: string): string {
+  const trimmed = raw.trim();
+  if (trimmed === "." || trimmed === "./") {
+    return resolve(cwd);
   }
-  if (isAbsolute(raw)) {
-    return resolve(raw);
+  if (trimmed.startsWith("~/")) {
+    return resolve(homedir(), trimmed.slice(2));
   }
-  return resolve(baseDir, raw);
-}
-
-function findTopicsDir(cwd: string): string | null {
-  let dir = cwd;
-  while (true) {
-    const readme = join(dir, "topics", "README.md");
-    if (existsSync(readme)) {
-      const content = readFileSync(readme, "utf8");
-      if (content.includes("All technical learning artifacts live here")) {
-        return join(dir, "topics");
-      }
-    }
-    const parent = dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
+  if (isAbsolute(trimmed)) {
+    return resolve(trimmed);
   }
-  return null;
+  return resolve(cwd, trimmed);
 }
 
 function resolveLearningRoot(cwd: string): string {
@@ -66,21 +53,15 @@ function resolveLearningRoot(cwd: string): string {
     return resolve(process.env.PILEAR_ROOT);
   }
 
-  const settingsPaths = findSettingsPaths(cwd);
-  for (const path of settingsPaths) {
+  for (const path of findSettingsPaths(cwd)) {
     const settings = readJson(path);
     const configured = settings?.pilear?.learningRoot;
-    if (configured) {
-      return resolveConfiguredRoot(configured, dirname(path));
+    if (configured !== undefined && configured !== "") {
+      return resolveConfiguredRoot(configured, cwd);
     }
   }
 
-  const discovered = findTopicsDir(cwd);
-  if (discovered) {
-    return discovered;
-  }
-
-  return join(homedir(), "pilear", "topics");
+  return resolve(cwd);
 }
 
 function loadHarnessPrompt(): string {
@@ -111,6 +92,7 @@ export default function (pi: ExtensionAPI) {
         harnessPrompt +
         "\n\n## Active learning root\n\n" +
         `\`${learningRoot}\`\n\n` +
+        "This is the directory where pi was started (`cwd`). " +
         "Write all learning artifacts under `<learning-root>/<domain>/<subject>/`.",
     };
   });
