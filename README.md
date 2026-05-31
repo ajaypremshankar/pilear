@@ -12,19 +12,21 @@ No passive lectures. User explains before artifacts are written.
 
 When ready to publish, run `/blog <topic>` in a later session — it reads your artifacts and writes a draft in your voice (`blog-draft.md` in the same subject folder).
 
-## Install
+## Install & update
 
-Enable pilear in **the current folder** (writes `.pi/settings.json` here; does not touch global `~/.pi/agent/settings.json`):
+Enable or refresh pilear in **the current folder** (writes `.pi/settings.json` here; does not touch global `~/.pi/agent/settings.json`):
 
 ```bash
-# Any folder — one-liner
+# Any folder — one-liner (installs if new, updates if already enabled)
 curl -fsSL https://raw.githubusercontent.com/ajaypremshankar/pilear/main/scripts/install.sh | bash
 
 # From a clone
 ./scripts/install.sh
 ```
 
-The script installs the `pi` CLI if missing, runs `pi install -l`, and sets `enableSkillCommands: true`. Re-run anytime — it is idempotent.
+The script installs the `pi` CLI if missing. If pilear is already in `.pi/settings.json`, it runs `pi update` to pull the latest harness; otherwise it runs `pi install -l`. Either way it sets `enableSkillCommands: true`. Re-run anytime.
+
+Restart `pi` after an update if a session is already open.
 
 No `learningRoot` config needed — it defaults to **where you run `pi`**.
 

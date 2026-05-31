@@ -16,6 +16,7 @@ require_grep() {
 }
 
 require_file "scripts/install.sh"
+require_file "scripts/_pilear-common.sh"
 [[ -x "scripts/install.sh" ]] || fail "scripts/install.sh must be executable"
 
 require_file "package.json"
@@ -67,6 +68,9 @@ require_grep "skills/blog/SKILL.md" "^name: blog$"
 require_grep "skills/blog/SKILL.md" "blog-voice.md"
 require_grep "skills/blog/SKILL.md" "blog-draft.md"
 require_grep "HARNESS.md" "blog"
+require_grep "scripts/install.sh" "pi update"
+require_grep "scripts/install.sh" "pi install -l"
+require_grep "scripts/_pilear-common.sh" "merge_settings"
 require_grep "extensions/learning-root.ts" "PILEAR_ROOT"
 require_grep "extensions/learning-root.ts" "resolve(cwd)"
 
