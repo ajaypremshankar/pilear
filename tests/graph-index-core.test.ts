@@ -65,6 +65,13 @@ describe("buildGraph", () => {
     const graph = buildGraph(fixtureRoot);
     assert.ok(graph.warnings.some((w) => w.message.includes("nonexistent")));
   });
+
+  it("ignores test fixtures when learning root is the package", () => {
+    const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
+    const graph = buildGraph(packageRoot);
+    assert.equal(graph.nodes.length, 0);
+    assert.ok(!graph.nodes.some((node) => node.id.includes("fixtures")));
+  });
 });
 
 describe("rankNextCandidates", () => {

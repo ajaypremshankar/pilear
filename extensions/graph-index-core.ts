@@ -175,23 +175,40 @@ function overviewPathToNodeId(relativeOverviewPath: string): string | null {
   return normalized.slice(0, -"/overview.md".length);
 }
 
+const SKIPPED_DIRS = new Set([".pilear", ".git", "node_modules", "tests"]);
+
+/** pilear layout: `<learning-root>/<domain>/<subject>/overview.md` only */
+export function canonicalNodeId(
+  learningRoot: string,
+  overviewPath: string,
+): string | null {
+  const rel = relative(resolve(learningRoot), overviewPath).replace(/\\/g, "/");
+  if (!/^[^/]+\/[^/]+\/overview\.md$/.test(rel)) return null;
+  return rel.slice(0, -"/overview.md".length);
+}
+
 function findOverviewFiles(learningRoot: string): string[] {
   const results: string[] = [];
+  const resolvedRoot = resolve(learningRoot);
 
   function walk(dir: string): void {
     if (!existsSync(dir)) return;
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       const fullPath = join(dir, entry.name);
       if (entry.isDirectory()) {
-        if (entry.name === ".pilear" || entry.name === ".git") continue;
+        if (SKIPPED_DIRS.has(entry.name)) continue;
         walk(fullPath);
-      } else if (entry.isFile() && entry.name === "overview.md") {
+      } else if (
+        entry.isFile() &&
+        entry.name === "overview.md" &&
+        canonicalNodeId(resolvedRoot, fullPath)
+      ) {
         results.push(fullPath);
       }
     }
   }
 
-  walk(learningRoot);
+  walk(resolvedRoot);
   return results;
 }
 
@@ -199,8 +216,11 @@ function nodeIdFromOverviewPath(
   learningRoot: string,
   overviewPath: string,
 ): string {
-  const rel = relative(learningRoot, overviewPath).replace(/\\/g, "/");
-  return rel.slice(0, -"/overview.md".length);
+  const nodeId = canonicalNodeId(learningRoot, overviewPath);
+  if (!nodeId) {
+    throw new Error(`Not a canonical subject overview: ${overviewPath}`);
+  }
+  return nodeId;
 }
 
 export function buildGraph(learningRoot: string): LearningGraph {
