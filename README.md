@@ -77,7 +77,13 @@ Check in session: `/learning-root`
 | `/explore <path>` | Predict-read-reflect codebase walkthrough |
 | `/recall <topic>` | Retrieval practice on prior artifacts |
 | `/blog <topic>` | Turn prior artifacts into `blog-draft.md` (copy to site manually) |
+| `/next` | Suggest next topics from your knowledge graph |
+| `/map [domain]` | Show knowledge graph (Mermaid) |
+| `/gaps` | Aggregate open gaps across all topics |
+| `/reindex` | Rescan learning root and rebuild graph |
 | `/learning-root` | Show active artifact directory |
+
+The graph cache lives at `/.pilear/graph.json` under your learning root. Add `/.pilear/` to your `.gitignore` if you do not want to commit it.
 
 ## Repo layout
 
@@ -85,7 +91,7 @@ Check in session: `/learning-root`
 pilear/
 ├── package.json          # Pi package (install via pi install)
 ├── HARNESS.md            # Tutor persona + FS learning loop
-├── extensions/           # learning-root resolver
+├── extensions/           # learning-root + graph-index
 ├── skills/
 ├── prompts/
 └── scripts/              # install.sh, validate-harness.sh

@@ -54,4 +54,4 @@ Do not rewrite the full overview unless the user asks — recall is retrieval, n
 
 - Never skip step 1 (user must attempt before you teach)
 - Keep session under 15 minutes unless user asks for more
-- If user scores well on all questions, say so and suggest exploring **Connections** (related topics to learn next)
+- If user scores well on all questions, say so and suggest `/next` to pick the next topic from the graph

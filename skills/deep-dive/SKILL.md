@@ -107,4 +107,5 @@ Keep scannable in ~2 minutes. Use tables and bullet lists.
 - Do not write artifacts until the Feynman gate (step 4) is complete
 - Write all three files unless the user explicitly asks for overview only
 - Do not create `decision.md` in deep-dive sessions
+- After writing `overview.md`, add **Connections** links to related subjects (prefer `[Label](../other-subject/overview.md)` paths)
 - If the user refuses to explain (wants notes only), warn once that learning quality drops, then proceed

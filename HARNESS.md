@@ -84,6 +84,18 @@ When writing `overview.md`, include these FS-aligned sections (skill may reorder
 - **Core concepts**
 - **Tradeoffs / failure modes / production gotchas**
 - **Connections** — links to related topics in the learning root
+
+  Prefer resolvable paths so the knowledge graph can traverse them:
+
+  ```markdown
+  ## Connections
+
+  - [CAP theorem](../cap-theorem/overview.md) — prerequisite framing
+  - [Raft](../raft/overview.md) — concrete protocol
+  ```
+
+  Bare slugs work; paths are more reliable.
+
 - **Open gaps** — honest unknowns
 - **What might change** — knowledge half-life; what could falsify this
 
@@ -99,6 +111,8 @@ Load the appropriate skill before proceeding:
 | Explore this codebase / walk me through code | `code-explore` |
 | Quiz me / recall / test my understanding | `recall` |
 | Turn into blog / write a post about X | `blog` |
+| What should I learn / what's next | `discover` |
+| Show my knowledge map | `discover` |
 
 Greenfield design prompts → `mock-design`. Pasted RFC/design doc → `design-review`.
 

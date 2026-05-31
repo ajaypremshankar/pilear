@@ -1,68 +1,11 @@
 import { existsSync, readFileSync } from "node:fs";
-import { homedir } from "node:os";
-import { dirname, isAbsolute, join, resolve } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { resolveLearningRoot } from "./_pilear-utils.ts";
 
 const extensionDir = dirname(fileURLToPath(import.meta.url));
 const packageRoot = dirname(extensionDir);
-
-type Settings = {
-  pilear?: {
-    learningRoot?: string;
-  };
-};
-
-function readJson(path: string): Settings | null {
-  if (!existsSync(path)) return null;
-  try {
-    return JSON.parse(readFileSync(path, "utf8")) as Settings;
-  } catch {
-    return null;
-  }
-}
-
-function findSettingsPaths(cwd: string): string[] {
-  const paths: string[] = [join(homedir(), ".pi", "agent", "settings.json")];
-  let dir = cwd;
-  while (true) {
-    paths.unshift(join(dir, ".pi", "settings.json"));
-    const parent = dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
-  }
-  return paths;
-}
-
-function resolveConfiguredRoot(raw: string, cwd: string): string {
-  const trimmed = raw.trim();
-  if (trimmed === "." || trimmed === "./") {
-    return resolve(cwd);
-  }
-  if (trimmed.startsWith("~/")) {
-    return resolve(homedir(), trimmed.slice(2));
-  }
-  if (isAbsolute(trimmed)) {
-    return resolve(trimmed);
-  }
-  return resolve(cwd, trimmed);
-}
-
-function resolveLearningRoot(cwd: string): string {
-  if (process.env.PILEAR_ROOT) {
-    return resolve(process.env.PILEAR_ROOT);
-  }
-
-  for (const path of findSettingsPaths(cwd)) {
-    const settings = readJson(path);
-    const configured = settings?.pilear?.learningRoot;
-    if (configured !== undefined && configured !== "") {
-      return resolveConfiguredRoot(configured, cwd);
-    }
-  }
-
-  return resolve(cwd);
-}
 
 function loadHarnessPrompt(): string {
   const harnessPath = join(packageRoot, "HARNESS.md");
