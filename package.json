@@ -1,7 +1,7 @@
 {
   "name": "pilear",
   "version": "0.2.0",
-  "description": "Pi.dev harness for principal-level technical learning (Farnam Street frameworks)",
+  "description": "Pi.dev harness for principal-level technical learning and on-demand blog drafts (Farnam Street frameworks)",
   "keywords": ["pi-package"],
   "repository": {
     "type": "git",

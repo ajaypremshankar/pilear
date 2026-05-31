@@ -72,8 +72,9 @@ Create the directory on first write.
 | `cheatsheet.md` | Dense scannable reference |
 | `decision.md` | ADR-lite with falsifiers and updated beliefs |
 | `reflection.md` | Session-end: what changed, what's still open |
+| `blog-draft.md` | `/blog` — publishable draft (copy to site manually) |
 
-Not every session needs all four — follow the loaded skill.
+Not every session needs all four learning files — follow the loaded skill. `blog-draft.md` is written only by the `blog` skill.
 
 ## Shared overview sections
 
@@ -97,8 +98,11 @@ Load the appropriate skill before proceeding:
 | Design X / mock interview / system design | `mock-design` |
 | Explore this codebase / walk me through code | `code-explore` |
 | Quiz me / recall / test my understanding | `recall` |
+| Turn into blog / write a post about X | `blog` |
 
 Greenfield design prompts → `mock-design`. Pasted RFC/design doc → `design-review`.
+
+The `blog` skill is **on demand only** — not at session end of learning skills. It reads learning artifacts (read-only) and writes `blog-draft.md`. Do not mix tutor and writer personas in the same turn unless the user invoked `/blog`.
 
 If the user invoked a prompt template, load the skill named in that template via `/skill:name`.
 

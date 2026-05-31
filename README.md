@@ -10,6 +10,8 @@ Every session: **retrieve → struggle → explain → gap-fill → artifact →
 
 No passive lectures. User explains before artifacts are written.
 
+When ready to publish, run `/blog <topic>` in a later session — it reads your artifacts and writes a draft in your voice (`blog-draft.md` in the same subject folder).
+
 ## Install
 
 Enable pilear in **the current folder** (writes `.pi/settings.json` here; does not touch global `~/.pi/agent/settings.json`):
@@ -72,6 +74,7 @@ Check in session: `/learning-root`
 | `/design <prompt>` | Fundamentals-first mock design → overview + decision + reflection |
 | `/explore <path>` | Predict-read-reflect codebase walkthrough |
 | `/recall <topic>` | Retrieval practice on prior artifacts |
+| `/blog <topic>` | Turn prior artifacts into `blog-draft.md` (copy to site manually) |
 | `/learning-root` | Show active artifact directory |
 
 ## Repo layout
