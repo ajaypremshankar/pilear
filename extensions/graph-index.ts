@@ -5,7 +5,9 @@ import { resolveLearningRoot } from "./_pilear-utils.ts";
 import {
   aggregateOpenGaps,
   buildGraph,
+  graphHealth,
   isGraphStale,
+  linkSuggestTargets,
   rankNextCandidates,
   toMermaid,
   type LearningGraph,
@@ -66,6 +68,51 @@ function formatCandidates(candidates: NextCandidate[]): string {
     .join("\n");
 }
 
+function formatHealthPrompt(graph: LearningGraph): string | null {
+  const health = graphHealth(graph);
+  if (!health.shouldOfferLinkSuggest) return null;
+
+  const targets = linkSuggestTargets(graph);
+  const targetList = targets
+    .slice(0, 10)
+    .map((id) => `- \`${id}\``)
+    .join("\n");
+
+  return `## Graph health after reindex
+
+${health.summary}
+
+Topics that may need better Connections:
+${targetList}
+
+Ask the user once: **Improve Connections across these topics?** (yes → load \`link-suggest\` skill; no → continue)
+
+Do not auto-edit files. Do not run link-suggest without consent.`;
+}
+
+function formatLinkSuggestInject(
+  graph: LearningGraph,
+  focus?: string,
+): string {
+  const health = graphHealth(graph);
+  const targets = linkSuggestTargets(graph);
+  const filtered = focus
+    ? targets.filter((id) => id === focus || id.endsWith(`/${focus}`))
+    : targets;
+  const list = (filtered.length > 0 ? filtered : targets)
+    .map((id) => `- \`${id}\``)
+    .join("\n");
+
+  return `## Graph link-suggest
+
+Health: ${health.summary}
+${focus ? `Focus: \`${focus}\`\n` : ""}
+Targets:
+${list}
+
+Load the \`link-suggest\` skill. Propose links; user accepts before editing overview.md.`;
+}
+
 export default function (pi: ExtensionAPI) {
   pi.on("session_start", async (_event, ctx) => {
     const root = resolveLearningRoot(ctx.cwd);
@@ -97,7 +144,15 @@ export default function (pi: ExtensionAPI) {
     handler: async (_args, ctx) => {
       const root = resolveLearningRoot(ctx.cwd);
       const graph = reindex(root);
-      ctx.ui.notify(`Reindexed: ${compactSummary(graph)}`, "info");
+      const summary = compactSummary(graph);
+      const health = graphHealth(graph);
+      const notify = health.shouldOfferLinkSuggest
+        ? `Reindexed: ${summary} (${health.summary})`
+        : `Reindexed: ${summary}`;
+      ctx.ui.notify(notify, "info");
+
+      const prompt = formatHealthPrompt(graph);
+      if (prompt) pendingInject = prompt;
     },
   });
 
@@ -143,6 +198,28 @@ export default function (pi: ExtensionAPI) {
               .join("\n\n");
       pendingInject = `## Aggregated open gaps\n\n${text}`;
       ctx.ui.notify(`${gaps.length} topics with open gaps`, "info");
+    },
+  });
+
+  pi.registerCommand("suggest-links", {
+    description: "Propose Connections improvements for weak graph topics",
+    handler: async (args, ctx) => {
+      const root = resolveLearningRoot(ctx.cwd);
+      const graph = loadOrReindex(root, true);
+      const health = graphHealth(graph);
+      const targets = linkSuggestTargets(graph);
+      const focus = args.trim();
+
+      pendingInject = formatLinkSuggestInject(graph, focus || undefined);
+
+      ctx.ui.notify(
+        focus
+          ? `Link suggest: ${focus}`
+          : health.shouldOfferLinkSuggest
+            ? `${targets.length} topic(s) to review (${health.summary})`
+            : "Graph healthy — optional link review",
+        "info",
+      );
     },
   });
 }

@@ -436,3 +436,60 @@ export function isGraphStale(learningRoot: string, graphPath: string): boolean {
 
   return newestOverview > graphMtime;
 }
+
+export type GraphHealth = {
+  orphanNodeIds: string[];
+  unresolvedWarnings: GraphWarning[];
+  edgeRatio: number;
+  shouldOfferLinkSuggest: boolean;
+  summary: string;
+};
+
+export function graphHealth(graph: LearningGraph): GraphHealth {
+  const connectedIds = new Set<string>();
+  for (const edge of graph.edges) {
+    connectedIds.add(edge.from);
+    connectedIds.add(edge.to);
+  }
+
+  const orphanNodeIds = graph.nodes
+    .filter((node) => !connectedIds.has(node.id))
+    .map((node) => node.id);
+
+  const unresolvedWarnings = graph.warnings;
+  const edgeRatio =
+    graph.nodes.length === 0 ? 0 : graph.edges.length / graph.nodes.length;
+
+  const sparse = graph.nodes.length >= 3 && edgeRatio < 0.5;
+  const shouldOfferLinkSuggest =
+    orphanNodeIds.length > 0 || unresolvedWarnings.length > 0 || sparse;
+
+  const parts: string[] = [];
+  if (orphanNodeIds.length) parts.push(`${orphanNodeIds.length} orphan(s)`);
+  if (unresolvedWarnings.length) {
+    parts.push(`${unresolvedWarnings.length} broken link(s)`);
+  }
+  if (sparse) parts.push("sparse graph");
+
+  return {
+    orphanNodeIds,
+    unresolvedWarnings,
+    edgeRatio,
+    shouldOfferLinkSuggest,
+    summary: parts.length ? parts.join(" · ") : "healthy",
+  };
+}
+
+export function linkSuggestTargets(graph: LearningGraph): string[] {
+  const health = graphHealth(graph);
+  const targets = new Set<string>();
+
+  for (const id of health.orphanNodeIds) targets.add(id);
+  for (const warning of health.unresolvedWarnings) targets.add(warning.from);
+
+  if (graph.nodes.length >= 3 && health.edgeRatio < 0.5) {
+    for (const node of graph.nodes) targets.add(node.id);
+  }
+
+  return [...targets].sort();
+}

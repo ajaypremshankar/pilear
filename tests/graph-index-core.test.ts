@@ -6,6 +6,8 @@ import {
   parseConnectionsSection,
   extractOpenGaps,
   buildGraph,
+  graphHealth,
+  linkSuggestTargets,
   rankNextCandidates,
   toMermaid,
 } from "../extensions/graph-index-core.ts";
@@ -13,6 +15,10 @@ import {
 const fixtureRoot = join(
   dirname(fileURLToPath(import.meta.url)),
   "fixtures/learning-root",
+);
+const emptyRoot = join(
+  dirname(fileURLToPath(import.meta.url)),
+  "fixtures/empty-root",
 );
 
 describe("parseConnectionsSection", () => {
@@ -90,5 +96,41 @@ describe("toMermaid", () => {
     const mermaid = toMermaid(graph);
     assert.match(mermaid, /^graph LR/);
     assert.match(mermaid, /Raft Consensus/);
+  });
+});
+
+describe("graphHealth", () => {
+  it("flags orphan nodes", () => {
+    const graph = buildGraph(fixtureRoot);
+    const health = graphHealth(graph);
+    assert.ok(health.orphanNodeIds.includes("backend/rate-limiting"));
+  });
+
+  it("flags unresolved warnings", () => {
+    const graph = buildGraph(fixtureRoot);
+    const health = graphHealth(graph);
+    assert.ok(health.unresolvedWarnings.length >= 1);
+  });
+
+  it("shouldOfferLinkSuggest when orphans or warnings exist", () => {
+    const graph = buildGraph(fixtureRoot);
+    const health = graphHealth(graph);
+    assert.equal(health.shouldOfferLinkSuggest, true);
+  });
+
+  it("does not offer when graph is empty", () => {
+    const graph = buildGraph(emptyRoot);
+    const health = graphHealth(graph);
+    assert.equal(health.shouldOfferLinkSuggest, false);
+    assert.equal(health.summary, "healthy");
+  });
+});
+
+describe("linkSuggestTargets", () => {
+  it("includes orphans and warning sources", () => {
+    const graph = buildGraph(fixtureRoot);
+    const targets = linkSuggestTargets(graph);
+    assert.ok(targets.includes("backend/rate-limiting"));
+    assert.ok(targets.includes("distributed-systems/raft"));
   });
 });

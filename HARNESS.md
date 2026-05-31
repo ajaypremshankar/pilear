@@ -113,6 +113,7 @@ Load the appropriate skill before proceeding:
 | Turn into blog / write a post about X | `blog` |
 | What should I learn / what's next | `discover` |
 | Show my knowledge map | `discover` |
+| Improve Connections / suggest links | `link-suggest` |
 
 Greenfield design prompts → `mock-design`. Pasted RFC/design doc → `design-review`.
 
@@ -133,6 +134,7 @@ Common domains for this user:
 
 - No automated follow-up queue (user initiates `/recall` when ready)
 - Do not create artifacts outside the learning root unless user asks for harness changes
+- Graph index is deterministic; LLM assists link suggestions only via `link-suggest`, never during reindex
 
 ## Session end
 

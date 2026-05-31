@@ -1,43 +1,102 @@
 # pilear
 
-Installable **Pi.dev harness** for principal-level technical learning — built on [Farnam Street learning frameworks](https://fs.blog/learning/).
+I got tired of asking an AI to explain something and getting a lecture I forgot by lunch.
 
-**Repository:** https://github.com/ajaypremshankar/pilear
+pilear is a [Pi.dev](https://pi.dev) harness for technical learning — built around [Farnam Street](https://fs.blog/learning/) ideas about retrieval, Feynman explanations, and deliberate practice. It won't summarize first. It asks what you already know, pushes until something breaks, makes you explain back without jargon, and only then writes files to disk.
 
-## Learning loop
+Over time those files link to each other. You get a map of what you've actually studied, what's still fuzzy, and (if you want) a blog draft that doesn't read like a compressed reference doc.
 
-Every session: **retrieve → struggle → explain → gap-fill → artifact → reflect**
+Repo: https://github.com/ajaypremshankar/pilear
 
-No passive lectures. User explains before artifacts are written.
+## What actually happens in a session
 
-When ready to publish, run `/blog <topic>` in a later session — it reads your artifacts and writes a draft in your voice (`blog-draft.md` in the same subject folder).
+You type `/teach <topic>`. You probably expect a lecture. You get a question:
 
-## Install & update
+> What do you already know about this?
 
-Enable or refresh pilear in **the current folder** (writes `.pi/settings.json` here; does not touch global `~/.pi/agent/settings.json`):
+You stumble through an answer. Good — that's the point. The tutor asks simple questions on purpose. Then harder ones — tradeoffs, failure modes, what goes wrong in production.
 
-```bash
-# Any folder — one-liner (installs if new, updates if already enabled)
-curl -fsSL https://raw.githubusercontent.com/ajaypremshankar/pilear/main/scripts/install.sh | bash
+Before any file gets written, you explain the core idea without leaning on the vocabulary. Name the mechanism without using its label. If you can't, no `overview.md`. Sorry.
 
-# From a clone
-./scripts/install.sh
+When you do pass, you get three files under `<domain>/<subject>/`:
+
+- `overview.md` — concepts, tradeoffs, what you still don't know
+- `cheatsheet.md` — the scannable version
+- `reflection.md` — what shifted in your understanding
+
+Later: `/recall` on the same topic. No hints first. Gaps get logged.
+
+Then `/next` — suggestions pulled from links *you* wrote, not a syllabus someone else wrote.
+
+## The loop
+
+Every session, same order:
+
+retrieve → struggle → explain → gap-fill → artifact → reflect
+
+The tutor is instructed not to skip ahead. Long lectures without you producing something are a bug, not a feature.
+
+## The graph part
+
+Each overview can link to related topics you've studied:
+
+```markdown
+## Connections
+
+- [Prerequisite topic](../other-subject/overview.md)
+- [Related idea](../another-subject/overview.md)
 ```
 
-The script installs the `pi` CLI if missing. If pilear is already in `.pi/settings.json`, it runs `pi update` to pull the latest harness; otherwise it runs `pi install -l`. Either way it sets `enableSkillCommands: true`. Re-run anytime.
+pilear reads those links and builds a graph. You don't maintain a separate index.
 
-Restart `pi` after an update if a session is already open.
+- `/map` — see how topics connect
+- `/next` — what to study next, from edges and open gaps
+- `/gaps` — honest unknowns across everything you've written
+- `/reindex` — rescan after you edit Connections
+- `/suggest-links [topic]` — propose Connections improvements (often after `/reindex` flags orphans or broken links)
 
-No `learningRoot` config needed — it defaults to **where you run `pi`**.
+`/reindex` may ask once if the graph looks weak — orphans, broken links, sparse connections. Say yes to walk through link suggestions; nothing edits without your accept.
+
+Run `pi` from your notes folder. Not from the pilear install directory.
+
+Cache: `/.pilear/graph.json`. Gitignore it if you don't want it in version control.
+
+## Commands
+
+| Command | What it does |
+|---------|----------------|
+| `/teach <topic>` | Deep dive → overview + cheatsheet + reflection |
+| `/review` | Critique a pasted RFC or design doc |
+| `/design <prompt>` | Mock system design session |
+| `/explore <path>` | Walk a codebase — predict first, then read |
+| `/recall <topic>` | Quiz yourself on prior artifacts |
+| `/next` | Suggest next topic from your graph |
+| `/map [domain]` | Draw the graph |
+| `/gaps` | List open gaps everywhere |
+| `/blog <topic>` | Draft a post from your artifacts (on demand) |
+| `/reindex` | Rebuild the graph |
+| `/suggest-links [topic]` | Propose Connections improvements |
+| `/learning-root` | Show where files go |
+
+`/blog` doesn't run automatically. You invoke it when you want a draft. It reads your overview and reflection, asks for an outline, writes `blog-draft.md`. You copy to your site yourself.
+
+## Install
+
+In the folder where you want learning artifacts to live:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ajaypremshankar/pilear/main/scripts/install.sh | bash
+cd ~/notes && pi
+```
+
+Installs `pi` if needed. Writes `.pi/settings.json` in the current directory. Re-run the script to update. Restart `pi` if you already have a session open.
 
 <details>
-<summary>Manual global install (optional)</summary>
+<summary>Global install (optional)</summary>
 
 ```bash
 pi install git:github.com/ajaypremshankar/pilear
 ```
-
-Add to `~/.pi/agent/settings.json`:
 
 ```json
 {
@@ -46,60 +105,39 @@ Add to `~/.pi/agent/settings.json`:
 }
 ```
 
+Add that to `~/.pi/agent/settings.json`.
+
 </details>
 
-## Learning root
+## Where files go
 
-Artifacts are written under `<domain>/<subject>/` relative to the **current working directory** where you started pi.
-
-| Method | Result |
-|--------|--------|
-| **Default** | `cwd` — the folder you're in when you run `pi` |
-| Override | `PILEAR_ROOT=/path` env var |
-| Override | `pilear.learningRoot` in `~/.pi/agent/settings.json` (relative paths resolve from `cwd`) |
-
-Examples:
+`<domain>/<subject>/` under wherever you started pi.
 
 ```bash
-cd ~/notes && pi          # artifacts → ~/notes/<domain>/<subject>/
-mkdir ~/learning && cd ~/learning && pi   # same pattern in any folder
+cd ~/notes && pi
+# writes to ~/notes/<domain>/<subject>/overview.md
 ```
+
+Override with `PILEAR_ROOT=/path` or `pilear.learningRoot` in settings.
 
 Check in session: `/learning-root`
 
-## Commands
+## Who it's for
 
-| Command | Purpose |
-|---------|---------|
-| `/teach <topic>` | Feynman deep dive → overview + cheatsheet + reflection |
-| `/review` | Double-loop design critique → decision + review + reflection |
-| `/design <prompt>` | Fundamentals-first mock design → overview + decision + reflection |
-| `/explore <path>` | Predict-read-reflect codebase walkthrough |
-| `/recall <topic>` | Retrieval practice on prior artifacts |
-| `/blog <topic>` | Turn prior artifacts into `blog-draft.md` (copy to site manually) |
-| `/next` | Suggest next topics from your knowledge graph |
-| `/map [domain]` | Show knowledge graph (Mermaid) |
-| `/gaps` | Aggregate open gaps across all topics |
-| `/reindex` | Rescan learning root and rebuild graph |
-| `/learning-root` | Show active artifact directory |
+People who can already build things but want to understand them — deeply enough to explain, decide, and notice when something will break.
 
-The graph cache lives at `/.pilear/graph.json` under your learning root. Add `/.pilear/` to your `.gitignore` if you do not want to commit it.
+Not for passive note-taking. You have to participate.
 
 ## Repo layout
 
 ```
 pilear/
-├── package.json          # Pi package (install via pi install)
-├── HARNESS.md            # Tutor persona + FS learning loop
-├── extensions/           # learning-root + graph-index
+├── HARNESS.md
+├── extensions/
 ├── skills/
 ├── prompts/
-└── scripts/              # install.sh, validate-harness.sh
+└── scripts/
 ```
-
-Run `./scripts/install.sh` (or the curl one-liner) in the folder where you want artifacts to live, then start `pi` there.
-
-## Validate
 
 ```bash
 bash scripts/validate-harness.sh
