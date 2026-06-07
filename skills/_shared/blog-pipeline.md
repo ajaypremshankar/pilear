@@ -102,19 +102,41 @@ Make it sound human-written in Ajay's voice:
 
 ---
 
-## Phase 5 — Embed diagrams
+## Phase 5 — Generate diagram SVGs
 
 **Input:** humanized essay (or polished if `--no-humanize`), `newsletter/wisdom.md`, `overview.md`  
-**Output:** final body with Mermaid blocks
+**Output:** `diagrams/*.mmd`, `diagrams/*.svg`, final body with image references (no embedded Mermaid)
 
 For each `<!-- diagram: ... -->` placeholder and any complex mechanism that benefits from a visual:
 
-- Add a fenced ` ```mermaid ` block **after** the paragraph that introduces the concept
+1. **Write source** — `diagrams/<slug>.mmd` (kebab-case slug from concept, e.g. `raft-leader-election.mmd`)
+2. **Render SVG** — from the topic directory, run for each `.mmd` file (agent executes this; do not ask the user to run it):
+
+   ```bash
+   npx -y @mermaid-js/mermaid-cli -i diagrams/<slug>.mmd -o diagrams/<slug>.svg
+   ```
+
+   Requires Node/npm on `PATH`. `-y` skips the npx install prompt. Run once per diagram. Do not proceed to assemble until every `.mmd` has a matching `.svg`.
+
+   If `npx` fails (no Node, network error), report the error and the exact command; keep `.mmd` files and image refs in the draft so the user can retry.
+
+3. **Link in prose** — replace the placeholder with a markdown image **after** the paragraph that introduces the concept:
+
+   ```markdown
+   ![Short caption — what the diagram shows](diagrams/<slug>.svg)
+   ```
+
+   Caption in prose above the image — the diagram is not the explanation.
+
+**Mermaid source rules:**
+
 - Prefer: `flowchart TD`, `sequenceDiagram`, `stateDiagram-v2` — pick what fits
 - Keep diagrams small (≤12 nodes/lines); one idea per diagram
-- Caption in prose above the fence — the diagram is not the explanation
+- Do **not** embed ` ```mermaid ` fences in `blog-draft.md`
 
 Remove unfilled placeholders. Do not add diagrams to every section — 0–2 per post is typical.
+
+**`--skip-diagrams` flag:** remove all `<!-- diagram: ... -->` placeholders; skip writing `diagrams/`; proceed to phase 6.
 
 ---
 
@@ -142,7 +164,7 @@ Copy the phase-5 body + phase-6 tags into the publishable file:
 - user bullets preserved
 -->
 
-<final body with diagrams>
+<final body with ![caption](diagrams/slug.svg) refs — no mermaid fences>
 
 #Tag1 #Tag2 #Tag3
 

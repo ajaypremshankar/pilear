@@ -23,7 +23,7 @@ This skill is **not** part of the learning loop. Do not run retrieve, struggle, 
 
 Resolve the target topic before reading artifacts.
 
-1. Parse user input: topic slug, `domain/subject` path, or flags (`--list`, `--humanize`, `--no-humanize`, `--skip-tags`)
+1. Parse user input: topic slug, `domain/subject` path, or flags (`--list`, `--humanize`, `--no-humanize`, `--skip-diagrams`, `--skip-tags`)
 2. **List mode (`--list` or "what topics can I blog about"):** find every `overview.md` under the learning root (skip `.pi/` and `.pilear/`), print `domain/subject` paths, stop
 3. **Slug only** (e.g. `raft`): search for `*/<slug>/overview.md`
    - 0 matches → error, suggest `--list`
@@ -38,7 +38,9 @@ Resolve the target topic before reading artifacts.
 2. Read `overview.md` — **required**. If missing, say so and offer `/teach` — do not draft
 3. Read `reflection.md`, `decision.md` if present; skim `cheatsheet.md` for facts only
 4. If `blog-draft.md` already exists, ask once: overwrite or revise existing draft
-5. `mkdir -p <topic-dir>/newsletter` for pipeline working files
+5. `mkdir -p <topic-dir>/newsletter` and `<topic-dir>/diagrams` for pipeline working files
+
+Phase 5 requires Node/npm — the agent runs `npx -y @mermaid-js/mermaid-cli` to render SVGs; no global install needed.
 
 Load `blog-voice.md`, `voice-patterns.md`, `voice-examples.md`, `voice-exclusions.md`, and `blog-pipeline.md` before writing.
 
@@ -87,13 +89,14 @@ Only after steps 1–2 (and 3–4 if triggered). Run **all phases** in `blog-pip
 | 2 Draft essay | `newsletter/draft.md` | Follow user outline |
 | 3 Polish | `newsletter/polished.md` | Clarity, flow, anti-slop |
 | 4 Voice pass | `newsletter/humanized.md` | Human, Ajay voice (`--humanize` = extra casual) |
-| 5 Embed diagrams | — | Mermaid where placeholders/concepts need it |
+| 5 Generate SVGs | `diagrams/*.mmd`, `diagrams/*.svg` | Render diagrams; link in draft as images |
 | 6 Tags | — | Hashtags (`--skip-tags` to omit) |
 
 **Flags:**
 
 - `--humanize` — extra casual voice pass in phase 4
 - `--no-humanize` — merge phases 3–4; skip `humanized.md`
+- `--skip-diagrams` — omit phase 5; strip diagram placeholders
 - `--skip-tags` — omit phase 6
 
 **Combine with user inputs:**
@@ -129,15 +132,18 @@ After the first draft, stay available for surgical edits until the user is done:
 ### 7. Session end
 
 1. Confirm paths:
-   - `blog-draft.md` — publishable draft
+   - `blog-draft.md` — publishable draft (image refs to `diagrams/`, no embedded Mermaid)
+   - `diagrams/` — `.mmd` sources and `.svg` renders (if phase 5 ran)
    - `newsletter/` — pipeline working files (wisdom, draft, polished, humanized)
-2. Remind user to copy manually to WriteFreely — pilear does not publish
+2. Remind user to copy manually to WriteFreely — upload SVGs alongside the post if the host needs assets bundled; pilear does not publish
 
 ## Artifacts touched
 
 | File | When |
 |------|------|
 | `blog-draft.md` | Final publishable draft — create or overwrite |
+| `diagrams/*.mmd` | Phase 5 — Mermaid source |
+| `diagrams/*.svg` | Phase 5 — rendered via `npx @mermaid-js/mermaid-cli` |
 | `newsletter/wisdom.md` | Phase 1 |
 | `newsletter/draft.md` | Phase 2 |
 | `newsletter/polished.md` | Phase 3 |
@@ -148,6 +154,7 @@ After the first draft, stay available for surgical edits until the user is done:
 - Never skip reader takeaway or hierarchical outline before first draft
 - Never skip pipeline phases on first draft (revision mode excepted)
 - Never write learning artifacts during `/blog`
-- Never auto-publish or write outside the subject folder
+- Never auto-publish or write outside the subject folder (except `diagrams/` and `newsletter/` under the same topic dir)
+- Never embed ` ```mermaid ` blocks in `blog-draft.md` — diagrams are separate SVG files
 - Target 500–900 words unless the user's outline clearly needs more — cut padding, not sections they asked for
 - Re-running `/blog` on the same topic: confirm overwrite if `blog-draft.md` exists

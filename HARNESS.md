@@ -73,9 +73,10 @@ Create the directory on first write.
 | `decision.md` | ADR-lite with falsifiers and updated beliefs |
 | `reflection.md` | Session-end: what changed, what's still open |
 | `blog-draft.md` | `/blog` — publishable draft (copy to site manually) |
+| `diagrams/*.mmd`, `diagrams/*.svg` | `/blog` — diagram source and rendered SVG (linked from draft, not embedded) |
 | `newsletter/*.md` | `/blog` pipeline working files (wisdom, draft, polished, humanized) — optional to keep |
 
-Not every session needs all four learning files — follow the loaded skill. `blog-draft.md` and `newsletter/` are written only by the `blog` skill.
+Not every session needs all four learning files — follow the loaded skill. `blog-draft.md`, `diagrams/`, and `newsletter/` are written only by the `blog` skill.
 
 ## Shared overview sections
 
