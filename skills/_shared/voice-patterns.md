@@ -1,21 +1,22 @@
 # Voice patterns (Ajay)
 
-Mined from pre-AI LinkedIn (`~/Work/linkedin-scraped/ajay-prem-shankar`) and Medium ([ajaypremshankar.medium.com](https://ajaypremshankar.medium.com/)). Reference doc for the `blog` skill — not a Pi skill.
+Reference doc for the `blog` skill — not a Pi skill.
 
-Load in Phase 2 (draft shape) and Phase 4 (voice pass). Pair with `voice-examples.md` for concrete anchors.
+Load in Phase 2 (draft shape) and Phase 4 (voice pass). Pair with `voice-examples.md` for rhythm anchors.
 
 ---
 
 ## Openings
 
-| Type | When | Examples |
-|------|------|----------|
-| Direct question | Concept or career posts | "Do you know why programming languages were needed when we already had human languages?" |
+| Type | When | Shape |
+|------|------|-------|
+| Direct question | Concept or career posts | "Do you know why…?" / "What if you are stuck…?" |
 | Reframe before thesis | Controversial or nuanced topic | "Before that, let's answer — should it matter?" |
 | Confession | Challenging a take | "Okay, I'll admit, the title sounds a bit too extreme. But please hear me out…" |
 | Plain setup | Practical advice | "Here's how I see this." |
-| Alert / confrontation | Pushing back on bad advice | "Angry Post alert:" / "I'm going to say something unpopular on LinkedIn." |
-| Named reader | Q&A style (rare in blogs) | "How to be consistent? Asked Rashmi" — use only if outline implies Q&A |
+| Alert / confrontation | Pushing back on bad advice | "Angry Post alert:" / "I'm going to say something unpopular." |
+| Named reader | Q&A style (rare in blogs) | "How to be consistent? Asked Rashmi" — only if outline implies Q&A |
+| Experiment frame | Personal exploration | "I experimented on something completely new to me — … and here is what I experienced." |
 
 Start from reflection when possible. Fall back to these shapes, not these exact words.
 
@@ -29,7 +30,7 @@ Good: "People don't bite.", "So what to do?", "What sarcasm does to your meeting
 
 Bad: "Understanding Distributed Consensus in Modern Systems", "Key Takeaways for Engineers"
 
-Medium long-form uses H3 for major beats within an essay; pilear blogs use H2 per user outline, H3 only when the user nested sub-points.
+Long essays use H3 for major beats within one arc; pilear blogs use H2 per user outline, H3 only when the user nested sub-points.
 
 ---
 
@@ -55,7 +56,7 @@ Use em-dashes (—) for asides and pivots, not semicolons.
 | Movie / pop culture | Vantage Point (multiple perspectives on one event), PK ("Oh" means different things) |
 | Everyday object | Rocket firecracker losing speed = motivation fading |
 | Character reference | Chandler Bing, Dr. House — workplace sarcasm posts |
-| Visual analogy | 🚌 → Text → 🚲 (interview answers: image in mind vs words spoken) |
+| Visual analogy | 🚌 → Text → 🚲 (image in mind vs words spoken) |
 | Indian English scene | *chaar log*, *bhaiyya/ma'am* — personal/workplace only, sparingly |
 | Self-deprecating scale | "I do make more mistakes in a day than Mr. Ambani earns dollars" |
 
@@ -65,8 +66,8 @@ One strong analogy per post is enough. Technical posts: analogy in one section, 
 
 ## Lists and takeaways
 
-- **LinkedIn style:** "Takeaways?" then numbered list (1. 2. 3.)
-- **Medium style:** "So what to do?" then bullets with **bold lead-ins** ("Stop looking for answers from others")
+- **Compact takeaways:** "Takeaways?" then numbered list (1. 2. 3.)
+- **Essay advice lists:** "So what to do?" then bullets with **bold lead-ins** ("Stop looking for answers from others")
 - **Blog rule:** Bullets for **actions**, not for abstract ideas. Ideas live in prose.
 
 Contrast pairs work: "Show everything you know. ❌" / "Perfect the picture in the interviewer's mind. ✅"
@@ -75,8 +76,8 @@ Contrast pairs work: "Show everything you know. ❌" / "Perfect the picture in t
 
 ## Closings
 
-| Type | Example |
-|------|---------|
+| Type | Shape |
+|------|-------|
 | Maxim (two lines) | "Work hard and you will outdo smart. Be consistent and you will surpass luck." |
 | Contrarian punchline | "Being stupid will make you the smartest in the room." |
 | Plain invitation | "Share your own encounters… and how it impacted you or your team." |
@@ -86,9 +87,9 @@ Deliver the **reader takeaway** from intake as maxim or plain statement. Pick ma
 
 ---
 
-## LinkedIn → blog expansion playbook
+## Expansion playbook (short insight → blog)
 
-Use when turning a short insight (from reflection or a LinkedIn-sized idea) into a 500–900 word `blog-draft.md`:
+Use when turning a compact insight (from reflection) into a 500–900 word `blog-draft.md`:
 
 1. **Hook (1–2 lines)** — question, confession, or reframe from reflection
 2. **Setup (2–4 sentences)** — personal beat: confusion, mistake, or what changed
@@ -101,14 +102,18 @@ Use when turning a short insight (from reflection or a LinkedIn-sized idea) into
 5. **Optional PS** — honest caveat or incomplete thinking
 6. **Hashtags** — last line, 3–5 tags
 
-**Do not pad.** If the outline has three sections, write three sections. Expand with story and example, not filler adjectives.
+**Do not pad.** Expand with story and example, not filler adjectives.
 
-**Scale cues from Medium:**
+**Essay shapes to scale up:**
 
-- *100+ 1:1s*: multiple H3 sections, each opens with claim, then vulnerable story, blockquote for imagined dialog
-- *Sarcasm*: confession hook → explore tension → self-roast → actionable options → invitation to share
-- *Remote work*: stat or quote → "Here's what I have been doing" → long action list → empathetic close
-- *Multiple offers*: labeled bold sections (Company Policy, Company Culture) → "So what to do?" bullets
+| Shape | Structure |
+|-------|-----------|
+| Multi-beat personal essay | H3 per beat: claim heading → vulnerable story → blockquote for imagined dialog |
+| Tension essay | Confession hook → explore tension → self-roast → actionable options → invitation to share |
+| Stat + practice | Quote or stat → "Here's what I have been doing" → action list → empathetic close |
+| Decision guide | Bold-labeled sections (e.g. Policy, Culture) → "So what to do?" bullets |
+
+Compact posts (~150–350 words) supply voice and punchlines; blogs (~500–900) add room for story and technical substance — same register, not more jargon.
 
 ---
 
@@ -121,5 +126,5 @@ Before writing `humanized.md`:
 - [ ] Each major section has a personal beat from reflection (not invented biography)
 - [ ] No sentence sounds like consultant/SEO copy — rewrite if yes
 - [ ] Close matches reader takeaway from intake
-- [ ] Checked `voice-exclusions.md` — no AI rap tone, no deprecated sign-offs, no guru words
+- [ ] Checked `voice-exclusions.md` — no AI-generated tone, no deprecated sign-offs, no guru words
 - [ ] Compared rhythm to 2–3 entries in `voice-examples.md` — similar sentence length variety and directness

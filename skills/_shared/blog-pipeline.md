@@ -94,7 +94,7 @@ Make it sound human-written in Ajay's voice:
 - Conversational rhythm — vary sentence length; one-line paragraphs OK
 - Self-aware asides where reflection supports them
 - Remove any remaining AI-slop patterns from `blog-voice.md`
-- Do not add LinkedIn energy or guru framing
+- Do not add guru framing or engagement-bait sign-offs
 
 **`--humanize` flag (prompt):** run an extra casual pass — looser fragments, more texty asides. Still follow anti-slop rules.
 

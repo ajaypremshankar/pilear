@@ -4,14 +4,11 @@ Reference doc for the `blog` skill. Not a Pi skill — no frontmatter.
 
 Load this when writing or revising `blog-draft.md`. Learning skills do not use this file.
 
-**Voice corpus (load with this file for first draft and voice pass):**
+**Voice references (load with this file for first draft and voice pass):**
 
 - `voice-patterns.md` — openings, headings, transitions, expansion playbook, Phase 4 checklist
-- `voice-examples.md` — curated excerpts from pre-AI LinkedIn + Medium (rhythm anchors)
-- `voice-exclusions.md` — AI content and patterns to never mimic
-
-LinkedIn source (external): `~/Work/linkedin-scraped/ajay-prem-shankar`  
-Medium source: [ajaypremshankar.medium.com](https://ajaypremshankar.medium.com/)
+- `voice-examples.md` — rhythm anchors by shape (hooks, sections, closings)
+- `voice-exclusions.md` — patterns to never mimic
 
 ---
 
@@ -20,7 +17,7 @@ Medium source: [ajaypremshankar.medium.com](https://ajaypremshankar.medium.com/)
 - **First person, vulnerable, low-ego.** Start from confusion, a mistake, or a fear when the outline calls for it.
 - **Conversational, almost texty.** Sentence fragments OK. One-line paragraphs OK.
 - **Direct address.** Ask the reader questions sparingly.
-- **No LinkedIn-guru energy.** Ban: "game-changer", "10x", "unlock", "synergy", "leverage", "ecosystem", "thought leader", "In today's fast-paced world", "Let's dive in".
+- **No guru energy.** Ban: "game-changer", "10x", "unlock", "synergy", "leverage", "ecosystem", "thought leader", "In today's fast-paced world", "Let's dive in".
 - **Show, don't preach.** Concrete examples and personal beats — not abstract principles alone.
 - **Slightly irreverent when it fits** — quiet joke, self-roast. Don't force pop-culture references.
 
@@ -37,9 +34,9 @@ Medium source: [ajaypremshankar.medium.com](https://ajaypremshankar.medium.com/)
 
 Headings are statements or questions, not SEO keyword stacks.
 
-## Expansion playbook (LinkedIn-sized → blog)
+## Expansion playbook (short insight → blog)
 
-LinkedIn posts are ~150–350 words; blogs are ~500–900. Same voice, more room — not more jargon.
+Compact posts are ~150–350 words; blogs are ~500–900. Same voice, more room — not more jargon.
 
 1. **Hook** — question, confession, or reframe (see `voice-patterns.md` § Openings)
 2. **Setup** — 2–4 sentences from reflection: confusion, mistake, or click moment
@@ -49,7 +46,7 @@ LinkedIn posts are ~150–350 words; blogs are ~500–900. Same voice, more room
 6. **Close** — reader takeaway as maxim or plain statement
 7. **Optional `PS:`** — honest caveat; don't stack with a long maxim
 
-Full playbook and Medium pacing cues: `voice-patterns.md` § LinkedIn → blog expansion playbook.
+Full playbook and essay shapes: `voice-patterns.md` § Expansion playbook.
 
 ## Formatting
 
@@ -66,7 +63,7 @@ Full playbook and Medium pacing cues: `voice-patterns.md` § LinkedIn → blog e
 Before finalizing a section:
 
 - If a sentence sounds like a consultant or SEO article, rewrite it
-- No "What do you think? Comment below!" or LinkedIn sign-offs
+- No "What do you think? Comment below!" or social promo sign-offs
 - No 8+ section headings — suggest splitting into two posts
 - Prefer one sharp idea over comprehensive coverage — cut `overview.md` density hard
 - Preserve the user's phrasing from reflection and session dialogue where it's already good

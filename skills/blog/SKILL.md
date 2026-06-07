@@ -107,8 +107,8 @@ Only after steps 1–2 (and 3–4 if triggered). Run **all phases** in `blog-pip
 | `decision.md` | Narrative spine for design posts |
 | `blog-voice.md` | Tone, formatting, anti-slop, expansion playbook |
 | `voice-patterns.md` | Openings, headings, transitions, Phase 4 checklist |
-| `voice-examples.md` | Curated pre-AI excerpts (rhythm anchors) |
-| `voice-exclusions.md` | AI content and deprecated patterns |
+| `voice-examples.md` | Rhythm anchors by shape (hooks, sections, closings) |
+| `voice-exclusions.md` | AI tone and deprecated patterns |
 | `blog-pipeline.md` | Phase-by-phase execution |
 
 Assemble final output into `blog-draft.md` per pipeline § Assemble.
