@@ -89,7 +89,7 @@ Deliver the **reader takeaway** from intake as maxim or plain statement. Pick ma
 
 ## Expansion playbook (short insight → blog)
 
-Use when turning a compact insight (from reflection) into a 500–900 word `blog-draft.md`:
+Use when turning a compact insight (from reflection) into a 500–900 word `blog/first-draft-blog.md`:
 
 1. **Hook (1–2 lines)** — question, confession, or reframe from reflection
 2. **Setup (2–4 sentences)** — personal beat: confusion, mistake, or what changed

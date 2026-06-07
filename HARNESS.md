@@ -72,11 +72,11 @@ Create the directory on first write.
 | `cheatsheet.md` | Dense scannable reference |
 | `decision.md` | ADR-lite with falsifiers and updated beliefs |
 | `reflection.md` | Session-end: what changed, what's still open |
-| `blog-draft.md` | `/blog` — publishable draft (copy to site manually) |
-| `diagrams/*.mmd`, `diagrams/*.svg` | `/blog` — diagram source and rendered SVG (linked from draft, not embedded) |
-| `newsletter/*.md` | `/blog` pipeline working files (wisdom, draft, polished, humanized) — optional to keep |
+| `blog/first-draft-blog.md` | `/blog` — publishable draft (copy to site manually) |
+| `blog/wisdom.md`, `blog/draft.md`, `blog/polished.md`, `blog/humanized.md` | `/blog` pipeline working files — optional to keep |
+| `blog/diagrams/*.mmd`, `blog/diagrams/*.svg` | `/blog` — diagram source and rendered SVG (linked from draft, not embedded) |
 
-Not every session needs all four learning files — follow the loaded skill. `blog-draft.md`, `diagrams/`, and `newsletter/` are written only by the `blog` skill.
+Not every session needs all four learning files — follow the loaded skill. Everything under `blog/` is written only by the `blog` skill.
 
 ## Shared overview sections
 
@@ -119,7 +119,7 @@ Load the appropriate skill before proceeding:
 
 Greenfield design prompts → `mock-design`. Pasted RFC/design doc → `design-review`.
 
-The `blog` skill is **on demand only** — not at session end of learning skills. It reads learning artifacts (read-only) and writes `blog-draft.md`. Do not mix tutor and writer personas in the same turn unless the user invoked `/blog`.
+The `blog` skill is **on demand only** — not at session end of learning skills. It reads learning artifacts (read-only) and writes `blog/first-draft-blog.md`. Do not mix tutor and writer personas in the same turn unless the user invoked `/blog`.
 
 If the user invoked a prompt template, load the skill named in that template via `/skill:name`.
 

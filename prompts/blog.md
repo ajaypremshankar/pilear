@@ -7,7 +7,7 @@ Load and follow the `blog` skill (`/skill:blog`).
 
 Topic/flags: $@
 
-Read artifacts from `<learning-root>/<domain>/<subject>/`. Write `blog-draft.md`, `diagrams/` (SVG + `.mmd` source), and pipeline files under `newsletter/` there only. Use the active learning root from session context.
+Read artifacts from `<learning-root>/<domain>/<subject>/`. Write all blog outputs under `blog/` there — `first-draft-blog.md`, pipeline working files, and `blog/diagrams/` for SVGs. Use the active learning root from session context.
 
 - `--list` — show topics with `overview.md`
 - `--humanize` — extra casual voice pass

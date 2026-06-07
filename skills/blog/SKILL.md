@@ -1,6 +1,6 @@
 ---
 name: blog
-description: Turn prior learning artifacts into a publishable blog draft in the author's voice. On-demand only — reads overview/reflection, asks for outline and reader takeaway, runs a multi-phase writing pipeline, writes blog-draft.md. Use for /blog, turn into a post, write a blog about X.
+description: Turn prior learning artifacts into a publishable blog draft in the author's voice. On-demand only — reads overview/reflection, asks for outline and reader takeaway, runs a multi-phase writing pipeline, writes blog/first-draft-blog.md. Use for /blog, turn into a post, write a blog about X.
 ---
 
 # Blog
@@ -15,7 +15,7 @@ Shared references:
 
 ## Goal
 
-Convert completed learning artifacts into `blog-draft.md` — copy-paste ready for blog.ajayhq.xyz. Sound human-written in the author's voice, not a compressed `overview.md`.
+Convert completed learning artifacts into `blog/first-draft-blog.md` — copy-paste ready for blog.ajayhq.xyz. Sound human-written in the author's voice, not a compressed `overview.md`.
 
 This skill is **not** part of the learning loop. Do not run retrieve, struggle, or Feynman gates. Learning files are read-only.
 
@@ -37,8 +37,8 @@ Resolve the target topic before reading artifacts.
 1. Resolve topic (above)
 2. Read `overview.md` — **required**. If missing, say so and offer `/teach` — do not draft
 3. Read `reflection.md`, `decision.md` if present; skim `cheatsheet.md` for facts only
-4. If `blog-draft.md` already exists, ask once: overwrite or revise existing draft
-5. `mkdir -p <topic-dir>/newsletter` and `<topic-dir>/diagrams` for pipeline working files
+4. If `blog/first-draft-blog.md` already exists, ask once: overwrite or revise existing draft
+5. `mkdir -p <topic-dir>/blog/diagrams` for all blog pipeline outputs
 
 Phase 5 requires Node/npm — the agent runs `npx -y @mermaid-js/mermaid-cli` to render SVGs; no global install needed.
 
@@ -85,11 +85,11 @@ Only after steps 1–2 (and 3–4 if triggered). Run **all phases** in `blog-pip
 
 | Phase | Working file | Purpose |
 |-------|--------------|---------|
-| 1 Extract wisdom | `newsletter/wisdom.md` | Distill insights; cut list |
-| 2 Draft essay | `newsletter/draft.md` | Follow user outline |
-| 3 Polish | `newsletter/polished.md` | Clarity, flow, anti-slop |
-| 4 Voice pass | `newsletter/humanized.md` | Human, Ajay voice (`--humanize` = extra casual) |
-| 5 Generate SVGs | `diagrams/*.mmd`, `diagrams/*.svg` | Render diagrams; link in draft as images |
+| 1 Extract wisdom | `blog/wisdom.md` | Distill insights; cut list |
+| 2 Draft essay | `blog/draft.md` | Follow user outline |
+| 3 Polish | `blog/polished.md` | Clarity, flow, anti-slop |
+| 4 Voice pass | `blog/humanized.md` | Human, Ajay voice (`--humanize` = extra casual) |
+| 5 Generate SVGs | `blog/diagrams/*.mmd`, `blog/diagrams/*.svg` | Render diagrams; link in draft as images |
 | 6 Tags | — | Hashtags (`--skip-tags` to omit) |
 
 **Flags:**
@@ -114,7 +114,7 @@ Only after steps 1–2 (and 3–4 if triggered). Run **all phases** in `blog-pip
 | `voice-exclusions.md` | AI tone and deprecated patterns |
 | `blog-pipeline.md` | Phase-by-phase execution |
 
-Assemble final output into `blog-draft.md` per pipeline § Assemble.
+Assemble final output into `blog/first-draft-blog.md` per pipeline § Assemble.
 
 Do **not** modify `overview.md`, `reflection.md`, `cheatsheet.md`, or `decision.md`.
 
@@ -124,37 +124,39 @@ After the first draft, stay available for surgical edits until the user is done:
 
 - Rewrite only the requested sections
 - Preserve good phrasing elsewhere ("if in doubt, leave it")
-- Overwrite `blog-draft.md` on each revision
+- Overwrite `blog/first-draft-blog.md` on each revision
 - Do **not** re-run the full pipeline unless the user asks for a full rewrite
 - Do **not** re-append "Ideas to develop further" on micro-edits
 - Apply grammar fixes from `blog-voice.md` without flattening voice
 
 ### 7. Session end
 
-1. Confirm paths:
-   - `blog-draft.md` — publishable draft (image refs to `diagrams/`, no embedded Mermaid)
+1. Confirm paths under `<topic-dir>/blog/`:
+   - `first-draft-blog.md` — publishable draft (image refs to `diagrams/`, no embedded Mermaid)
    - `diagrams/` — `.mmd` sources and `.svg` renders (if phase 5 ran)
-   - `newsletter/` — pipeline working files (wisdom, draft, polished, humanized)
-2. Remind user to copy manually to WriteFreely — upload SVGs alongside the post if the host needs assets bundled; pilear does not publish
+   - `wisdom.md`, `draft.md`, `polished.md`, `humanized.md` — pipeline working files
+2. Remind user to copy manually to WriteFreely — upload SVGs from `blog/diagrams/` if the host needs assets bundled; pilear does not publish
 
 ## Artifacts touched
 
+All paths relative to `<topic-dir>/`:
+
 | File | When |
 |------|------|
-| `blog-draft.md` | Final publishable draft — create or overwrite |
-| `diagrams/*.mmd` | Phase 5 — Mermaid source |
-| `diagrams/*.svg` | Phase 5 — rendered via `npx @mermaid-js/mermaid-cli` |
-| `newsletter/wisdom.md` | Phase 1 |
-| `newsletter/draft.md` | Phase 2 |
-| `newsletter/polished.md` | Phase 3 |
-| `newsletter/humanized.md` | Phase 4 (unless `--no-humanize`) |
+| `blog/first-draft-blog.md` | Final publishable draft — create or overwrite |
+| `blog/diagrams/*.mmd` | Phase 5 — Mermaid source |
+| `blog/diagrams/*.svg` | Phase 5 — rendered via `npx @mermaid-js/mermaid-cli` |
+| `blog/wisdom.md` | Phase 1 |
+| `blog/draft.md` | Phase 2 |
+| `blog/polished.md` | Phase 3 |
+| `blog/humanized.md` | Phase 4 (unless `--no-humanize`) |
 
 ## Rules
 
 - Never skip reader takeaway or hierarchical outline before first draft
 - Never skip pipeline phases on first draft (revision mode excepted)
 - Never write learning artifacts during `/blog`
-- Never auto-publish or write outside the subject folder (except `diagrams/` and `newsletter/` under the same topic dir)
-- Never embed ` ```mermaid ` blocks in `blog-draft.md` — diagrams are separate SVG files
+- Never auto-publish or write blog files outside `<topic-dir>/blog/`
+- Never embed ` ```mermaid ` blocks in `blog/first-draft-blog.md` — diagrams are separate SVG files in `blog/diagrams/`
 - Target 500–900 words unless the user's outline clearly needs more — cut padding, not sections they asked for
-- Re-running `/blog` on the same topic: confirm overwrite if `blog-draft.md` exists
+- Re-running `/blog` on the same topic: confirm overwrite if `blog/first-draft-blog.md` exists

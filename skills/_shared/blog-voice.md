@@ -2,7 +2,7 @@
 
 Reference doc for the `blog` skill. Not a Pi skill — no frontmatter.
 
-Load this when writing or revising `blog-draft.md`. Learning skills do not use this file.
+Load this when writing or revising `blog/first-draft-blog.md`. Learning skills do not use this file.
 
 **Voice references (load with this file for first draft and voice pass):**
 
@@ -55,7 +55,7 @@ Full playbook and essay shapes: `voice-patterns.md` § Expansion playbook.
 - **Bold** sparingly — one must-not-miss phrase per section max
 - **Blockquotes** for quotes, sample messages, or one-line section maxims
 - **Code blocks** fenced, ~15 lines max, only when the topic needs code
-- **Diagrams as SVG** — 0–2 per post; source in `diagrams/*.mmd`, rendered to `diagrams/*.svg`; reference with `![caption](diagrams/slug.svg)` — never embed ` ```mermaid ` in `blog-draft.md`
+- **Diagrams as SVG** — 0–2 per post; source in `blog/diagrams/*.mmd`, rendered to `blog/diagrams/*.svg`; reference from `first-draft-blog.md` with `![caption](diagrams/slug.svg)` — never embed ` ```mermaid ` in the draft
 - **Emojis** rationed — not in headings
 
 ## Human, not generated
