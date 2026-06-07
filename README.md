@@ -78,7 +78,7 @@ Cache: `/.pilear/graph.json`. Gitignore it if you don't want it in version contr
 | `/suggest-links [topic]` | Propose Connections improvements |
 | `/learning-root` | Show where files go |
 
-`/blog` doesn't run automatically. You invoke it when you want a draft. It reads your overview and reflection, asks for an outline, then runs a multi-phase fabric pipeline (wisdom → draft → polish → voice → diagrams → tags). Working files land in `newsletter/`; the publishable draft is `blog-draft.md`. You copy to your site yourself.
+`/blog` doesn't run automatically. You invoke it when you want a draft. It reads your overview and reflection, asks for an outline, then runs a multi-phase pipeline (wisdom → draft → polish → voice → quality gate → diagrams → tags). Working files land in `<topic>/blog/`; the publishable draft is `blog/first-draft-blog.md`. You copy to your site yourself.
 
 **Requires [fabric](https://github.com/danielmiessler/fabric).** Install one of:
 

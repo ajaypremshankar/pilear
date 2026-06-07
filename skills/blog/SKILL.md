@@ -40,7 +40,9 @@ Resolve the target topic before reading artifacts.
 4. If `blog/first-draft-blog.md` already exists, ask once: overwrite or revise existing draft
 5. `mkdir -p <topic-dir>/blog/diagrams` for all blog pipeline outputs
 
-Phase 5 requires Node/npm — the agent runs `npx -y @mermaid-js/mermaid-cli` to render SVGs; no global install needed.
+Phase 5 requires `fabric` or `fabric-ai` on `PATH` for `check_falsifiability` and `rate_content`.
+
+Phase 6 requires Node/npm — the agent runs `npx -y @mermaid-js/mermaid-cli` to render SVGs; no global install needed.
 
 Load `blog-voice.md`, `voice-patterns.md`, `voice-examples.md`, `voice-exclusions.md`, and `blog-pipeline.md` before writing.
 
@@ -89,15 +91,16 @@ Only after steps 1–2 (and 3–4 if triggered). Run **all phases** in `blog-pip
 | 2 Draft essay | `blog/draft.md` | Follow user outline |
 | 3 Polish | `blog/polished.md` | Clarity, flow, anti-slop |
 | 4 Voice pass | `blog/humanized.md` | Human, Ajay voice (`--humanize` = extra casual) |
-| 5 Generate SVGs | `blog/diagrams/*.mmd`, `blog/diagrams/*.svg` | Landscape diagrams (`LR`, `mmdc -w 1000 -H 450`); link in draft |
-| 6 Tags | — | Hashtags (`--skip-tags` to omit) |
+| 5 Quality gate | `blog/falsifiability-audit.md`, `blog/content-rating.md` | `fabric -p check_falsifiability` + `rate_content` loop until S Tier / score ≥90 |
+| 6 Generate SVGs | `blog/diagrams/*.mmd`, `blog/diagrams/*.svg` | Landscape diagrams (`LR`, `mmdc -w 1000 -H 450`); link in draft |
+| 7 Tags | — | Hashtags (`--skip-tags` to omit) |
 
 **Flags:**
 
 - `--humanize` — extra casual voice pass in phase 4
 - `--no-humanize` — merge phases 3–4; skip `humanized.md`
-- `--skip-diagrams` — omit phase 5; strip diagram placeholders
-- `--skip-tags` — omit phase 6
+- `--skip-diagrams` — omit phase 6; strip diagram placeholders
+- `--skip-tags` — omit phase 7
 
 **Combine with user inputs:**
 
@@ -133,8 +136,8 @@ After the first draft, stay available for surgical edits until the user is done:
 
 1. Confirm paths under `<topic-dir>/blog/`:
    - `first-draft-blog.md` — publishable draft (image refs to `diagrams/`, no embedded Mermaid)
-   - `diagrams/` — `.mmd` sources and `.svg` renders (if phase 5 ran)
-   - `wisdom.md`, `draft.md`, `polished.md`, `humanized.md` — pipeline working files
+   - `diagrams/` — `.mmd` sources and `.svg` renders (if phase 6 ran)
+   - `wisdom.md`, `draft.md`, `polished.md`, `humanized.md`, `falsifiability-audit.md`, `content-rating.md` — pipeline working files
 2. Remind user to copy manually to WriteFreely — upload SVGs from `blog/diagrams/` if the host needs assets bundled; pilear does not publish
 
 ## Artifacts touched
@@ -144,12 +147,14 @@ All paths relative to `<topic-dir>/`:
 | File | When |
 |------|------|
 | `blog/first-draft-blog.md` | Final publishable draft — create or overwrite |
-| `blog/diagrams/*.mmd` | Phase 5 — Mermaid source |
-| `blog/diagrams/*.svg` | Phase 5 — rendered via `npx @mermaid-js/mermaid-cli` |
+| `blog/diagrams/*.mmd` | Phase 6 — Mermaid source |
+| `blog/diagrams/*.svg` | Phase 6 — rendered via `npx @mermaid-js/mermaid-cli` |
 | `blog/wisdom.md` | Phase 1 |
 | `blog/draft.md` | Phase 2 |
 | `blog/polished.md` | Phase 3 |
 | `blog/humanized.md` | Phase 4 (unless `--no-humanize`) |
+| `blog/falsifiability-audit.md` | Phase 5 — fabric `check_falsifiability` output |
+| `blog/content-rating.md` | Phase 5 — fabric `rate_content` output |
 
 ## Rules
 

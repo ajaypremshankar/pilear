@@ -6,7 +6,9 @@ Run these phases **in order** after reader takeaway and hierarchical outline are
 
 All blog outputs live under `<topic-dir>/blog/`. Do not write `newsletter/` or `blog-draft.md` at the topic root.
 
-Inspired by the fabric tech-blog pipeline (`extract_article_wisdom` → `write_essay_pg` → `improve_writing` → `humanize` → `embed_blog_diagram` → `create_tags`).
+Inspired by the fabric tech-blog pipeline (`extract_article_wisdom` → `write_essay_pg` → `improve_writing` → `humanize` → `check_falsifiability` → `rate_content` → `embed_blog_diagram` → `create_tags`).
+
+**Requires [fabric](https://github.com/danielmiessler/Fabric)** (`fabric` or `fabric-ai` on `PATH`) for phase 5 quality gate. Phases 1–4 are agent-executed; phase 5 runs fabric CLI patterns.
 
 ---
 
@@ -60,7 +62,7 @@ Write the full post following the user's outline faithfully:
 - Lead with hook from reflection or outline — not a definition
 - Translate technical substance from wisdom — never paste overview sections
 - Target 500–900 words unless the outline clearly needs more
-- Placeholder `<!-- diagram: <concept> -->` where a visual would help (phase 5 fills these)
+- Placeholder `<!-- diagram: <concept> -->` where a visual would help (phase 6 fills these)
 
 Do **not** add hashtags or "Ideas to develop further" yet.
 
@@ -104,9 +106,73 @@ Make it sound human-written in Ajay's voice:
 
 ---
 
-## Phase 5 — Generate diagram SVGs
+## Phase 5 — Quality gate (falsifiability + content rating)
 
-**Input:** humanized essay (or polished if `--no-humanize`), `blog/wisdom.md`, `overview.md`  
+**Input:** `blog/humanized.md` (or `blog/polished.md` if `--no-humanize`)  
+**Output:** revised essay body; `blog/falsifiability-audit.md`; `blog/content-rating.md`
+
+Run via **fabric CLI** — do not simulate. From `<topic-dir>`:
+
+```bash
+cat blog/humanized.md | fabric -p check_falsifiability > blog/falsifiability-audit.md
+cat blog/humanized.md | fabric -p rate_content > blog/content-rating.md
+```
+
+Use `blog/polished.md` instead of `humanized.md` when `--no-humanize`. Use `fabric-ai` if `fabric` is not on `PATH`.
+
+If the CLI fails (missing binary, API key, network), report the error. Fall back to applying each pattern's `system.md` logic inline and still write the audit files — but always try the CLI first.
+
+### Loop
+
+```
+essay → fabric -p check_falsifiability → revise → fabric -p rate_content → revise → repeat
+```
+
+1. **Falsifiability audit** — save CLI output to `blog/falsifiability-audit.md`. Expect: CLAIMS IDENTIFIED, FALSIFIABILITY ANALYSIS, KAFKA TRAP CHECK, OVERALL FALSIFIABILITY RATING, PROPOSED TESTS, RECOMMENDATIONS.
+
+2. **Revise from falsifiability** — overwrite `blog/humanized.md` (or `polished.md`):
+   - Replace guru-speak with specific stories or testable claims
+   - Qualify universal claims with PS-style limits (*"worked for me at a 15-person startup"*)
+   - Remove moving-goalpost and Kafka-trap framing
+
+3. **Content rating** — save CLI output to `blog/content-rating.md`. Expect: LABELS, RATING (S–D tier), CONTENT SCORE (1–100).
+
+4. **Revise from rating** — improve weakest section:
+   - Low idea count → add angles or counterpoints, not padding
+   - Below S Tier or score < 90 → rewrite the weakest H2
+
+5. **Repeat** until exit criteria pass (max 5 iterations). If still below threshold, stop and ask user whether to ship or keep iterating.
+
+### Exit criteria
+
+| Gate | Threshold |
+| --- | --- |
+| Falsifiability | **FULLY** or **MOSTLY FALSIFIABLE**; no Kafka traps |
+| Content rating | **S Tier** |
+| Content score | **≥ 90** |
+| Voice | Still sounds like Ajay — check `voice-exclusions.md` after each revision |
+
+Show audit summary in chat (not in `first-draft-blog.md`):
+
+```
+---
+**Quality gate (passed)**
+- Falsifiability: [rating]
+- Content: S Tier, score [N]/100
+- Iterations: [N]
+---
+```
+
+| Weak (unfalsifiable) | Strong (falsifiable / honest) |
+| --- | --- |
+| "Raft solves all consensus problems" | "Raft made leader election click for me — here's where I still get confused" |
+| "Always use rate limiting" | "We added rate limiting and p99 dropped 40% — might not matter at your scale" |
+
+---
+
+## Phase 6 — Generate diagram SVGs
+
+**Input:** phase-5 essay (`blog/humanized.md` or `blog/polished.md`), `blog/wisdom.md`, `overview.md`  
 **Output:** `blog/diagrams/*.mmd`, `blog/diagrams/*.svg`, final body with image references (no embedded Mermaid)
 
 For each `<!-- diagram: ... -->` placeholder and any complex mechanism that benefits from a visual:
@@ -153,11 +219,11 @@ If a rendered SVG is still taller than wide, rework the `.mmd` to LR layout and 
 
 Remove unfilled placeholders. Do not add diagrams to every section — 0–2 per post is typical.
 
-**`--skip-diagrams` flag:** remove all `<!-- diagram: ... -->` placeholders; skip writing `blog/diagrams/`; proceed to phase 6.
+**`--skip-diagrams` flag:** remove all `<!-- diagram: ... -->` placeholders; skip writing `blog/diagrams/`; proceed to phase 7.
 
 ---
 
-## Phase 6 — Tags
+## Phase 7 — Tags
 
 **Input:** final essay body  
 **Output:** hashtag line appended to `blog/first-draft-blog.md`
@@ -172,7 +238,7 @@ Generate 3–5 tags unless `--skip-tags`:
 
 ## Assemble `blog/first-draft-blog.md`
 
-Copy the phase-5 body + phase-6 tags into the publishable file:
+Copy the phase-6 body + phase-7 tags into the publishable file:
 
 ```markdown
 # <Post title>
