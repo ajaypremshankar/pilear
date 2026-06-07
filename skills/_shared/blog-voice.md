@@ -55,7 +55,7 @@ Full playbook and essay shapes: `voice-patterns.md` § Expansion playbook.
 - **Bold** sparingly — one must-not-miss phrase per section max
 - **Blockquotes** for quotes, sample messages, or one-line section maxims
 - **Code blocks** fenced, ~15 lines max, only when the topic needs code
-- **Diagrams as SVG** — 0–2 per post; source in `blog/diagrams/*.mmd`, rendered to `blog/diagrams/*.svg`; reference from `first-draft-blog.md` with `![caption](diagrams/slug.svg)` — never embed ` ```mermaid ` in the draft
+- **Diagrams as SVG** — 0–2 per post; **landscape** (~2:1, `flowchart LR` default); source in `blog/diagrams/*.mmd`, rendered with `mmdc -w 1000 -H 450`; reference from `first-draft-blog.md` with `![caption](diagrams/slug.svg)` — never embed ` ```mermaid ` in the draft
 - **Emojis** rationed — not in headings
 
 ## Human, not generated

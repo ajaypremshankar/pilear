@@ -89,7 +89,7 @@ Only after steps 1–2 (and 3–4 if triggered). Run **all phases** in `blog-pip
 | 2 Draft essay | `blog/draft.md` | Follow user outline |
 | 3 Polish | `blog/polished.md` | Clarity, flow, anti-slop |
 | 4 Voice pass | `blog/humanized.md` | Human, Ajay voice (`--humanize` = extra casual) |
-| 5 Generate SVGs | `blog/diagrams/*.mmd`, `blog/diagrams/*.svg` | Render diagrams; link in draft as images |
+| 5 Generate SVGs | `blog/diagrams/*.mmd`, `blog/diagrams/*.svg` | Landscape diagrams (`LR`, `mmdc -w 1000 -H 450`); link in draft |
 | 6 Tags | — | Hashtags (`--skip-tags` to omit) |
 
 **Flags:**

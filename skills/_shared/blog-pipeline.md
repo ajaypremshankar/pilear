@@ -115,10 +115,10 @@ For each `<!-- diagram: ... -->` placeholder and any complex mechanism that bene
 2. **Render SVG** — from the topic directory, run for each `.mmd` file (agent executes this; do not ask the user to run it):
 
    ```bash
-   npx -y @mermaid-js/mermaid-cli -i blog/diagrams/<slug>.mmd -o blog/diagrams/<slug>.svg
+   npx -y @mermaid-js/mermaid-cli -i blog/diagrams/<slug>.mmd -o blog/diagrams/<slug>.svg -w 1000 -H 450
    ```
 
-   Requires Node/npm on `PATH`. `-y` skips the npx install prompt. Run once per diagram. Do not proceed to assemble until every `.mmd` has a matching `.svg`.
+   Requires Node/npm on `PATH`. `-y` skips the npx install prompt. `-w 1000 -H 450` targets a **landscape** canvas (~2:1) suited to inline blog width — not portrait. Run once per diagram. Do not proceed to assemble until every `.mmd` has a matching `.svg`.
 
    If `npx` fails (no Node, network error), report the error and the exact command; keep `.mmd` files and image refs in the draft so the user can retry.
 
@@ -130,11 +130,26 @@ For each `<!-- diagram: ... -->` placeholder and any complex mechanism that bene
 
    Caption in prose above the image — the diagram is not the explanation.
 
-**Mermaid source rules:**
+**Mermaid source rules (landscape-first for blog reading):**
 
-- Prefer: `flowchart TD`, `sequenceDiagram`, `stateDiagram-v2` — pick what fits
-- Keep diagrams small (≤12 nodes/lines); one idea per diagram
+Blog content columns are wide and short — diagrams should read **left-to-right**, not top-to-bottom. Avoid portrait/tall SVGs when a horizontal layout works.
+
+| Diagram type | Prefer | Avoid |
+|--------------|--------|-------|
+| Flow / process | `flowchart LR` | `flowchart TD` (unless layers/stacks must be vertical) |
+| Interactions | `sequenceDiagram` (naturally wide) | Long vertical participant lists |
+| States | `stateDiagram-v2` with `direction LR` when supported | Deep vertical state chains |
+| Layers / stack | `flowchart TB` only when the concept *is* vertical (OSI stack, call stack) | TD by default |
+
+Layout habits:
+
+- Place nodes in a **single horizontal row** or two shallow rows — not a long column
+- Split a tall idea into **two landscape diagrams** rather than one portrait diagram
+- Keep labels short; wrap long text breaks landscape layout
+- ≤12 nodes/lines; one idea per diagram
 - Do **not** embed ` ```mermaid ` fences in `blog/first-draft-blog.md`
+
+If a rendered SVG is still taller than wide, rework the `.mmd` to LR layout and re-run `mmdc`.
 
 Remove unfilled placeholders. Do not add diagrams to every section — 0–2 per post is typical.
 
