@@ -1,0 +1,161 @@
+# Blog writing pipeline
+
+Reference doc for the `blog` skill. Not a Pi skill — no frontmatter.
+
+Run these phases **in order** after reader takeaway and hierarchical outline are collected. Each phase builds on the previous. Do not skip phases on first draft.
+
+Inspired by the fabric tech-blog pipeline (`extract_article_wisdom` → `write_essay_pg` → `improve_writing` → `humanize` → `embed_blog_diagram` → `create_tags`).
+
+---
+
+## Phase 1 — Extract wisdom
+
+**Input:** `overview.md`, `reflection.md`, `decision.md` (if present), reader takeaway  
+**Output:** `newsletter/wisdom.md` (internal working file)
+
+Distill source material into blog-ready insights — not a copy of `overview.md`.
+
+Extract:
+
+- 5–10 sharp insights the post can hang on
+- One personal beat from reflection (confusion, mistake, click moment)
+- 2–3 concrete examples or analogies already in the artifacts
+- What to **cut** — dense lecture material that doesn't serve the reader takeaway
+
+Format:
+
+```markdown
+# Wisdom — <topic>
+
+## Reader takeaway (north star)
+<user's one-liner>
+
+## Insights
+- ...
+
+## Personal beat
+...
+
+## Examples to use
+- ...
+
+## Cut list
+- ...
+```
+
+---
+
+## Phase 2 — Draft essay
+
+**Input:** wisdom, user's hierarchical outline, `blog-voice.md`  
+**Output:** `newsletter/draft.md`
+
+Write the full post following the user's outline faithfully:
+
+- One H2 per major outline bullet; nest sub-bullets as `###` only when the user nested them
+- Lead with hook from reflection or outline — not a definition
+- Translate technical substance from wisdom — never paste overview sections
+- Target 500–900 words unless the outline clearly needs more
+- Placeholder `<!-- diagram: <concept> -->` where a visual would help (phase 5 fills these)
+
+Do **not** add hashtags or "Ideas to develop further" yet.
+
+---
+
+## Phase 3 — Polish
+
+**Input:** `newsletter/draft.md`  
+**Output:** `newsletter/polished.md`
+
+Improve clarity and flow without changing structure or voice choices:
+
+- Cut filler, redundancy, and throat-clearing
+- Strengthen transitions between H2 sections
+- Fix grammar per `blog-voice.md` § Grammar fixes
+- Ensure close delivers the reader takeaway
+- Flag any sentence that sounds like SEO/consultant copy — rewrite it
+
+Preserve: user's outline order, personal phrasing from reflection, fragments and one-line paragraphs.
+
+---
+
+## Phase 4 — Voice pass (humanize)
+
+**Input:** `newsletter/polished.md`, `blog-voice.md`  
+**Output:** `newsletter/humanized.md` (skip writing this file if `--no-humanize`; still apply voice rules to final)
+
+Make it sound human-written in Ajay's voice:
+
+- Conversational rhythm — vary sentence length
+- Self-aware asides where reflection supports them
+- Remove any remaining AI-slop patterns from `blog-voice.md`
+- Do not add LinkedIn energy or guru framing
+
+**`--humanize` flag (prompt):** run an extra casual pass — looser fragments, more texty asides. Still follow anti-slop rules.
+
+**`--no-humanize` flag (prompt):** merge phases 3–4 — polish with voice rules inline, skip separate humanized file.
+
+---
+
+## Phase 5 — Embed diagrams
+
+**Input:** humanized essay (or polished if `--no-humanize`), `newsletter/wisdom.md`, `overview.md`  
+**Output:** final body with Mermaid blocks
+
+For each `<!-- diagram: ... -->` placeholder and any complex mechanism that benefits from a visual:
+
+- Add a fenced ` ```mermaid ` block **after** the paragraph that introduces the concept
+- Prefer: `flowchart TD`, `sequenceDiagram`, `stateDiagram-v2` — pick what fits
+- Keep diagrams small (≤12 nodes/lines); one idea per diagram
+- Caption in prose above the fence — the diagram is not the explanation
+
+Remove unfilled placeholders. Do not add diagrams to every section — 0–2 per post is typical.
+
+---
+
+## Phase 6 — Tags
+
+**Input:** final essay body  
+**Output:** hashtag line appended to `blog-draft.md`
+
+Generate 3–5 tags unless `--skip-tags`:
+
+- PascalCase multi-word: `#DistributedSystems #Raft`
+- Match post substance, not SEO keyword stuffing
+- Last content line before optional "Ideas to develop further" block
+
+---
+
+## Assemble `blog-draft.md`
+
+Copy the phase-5 body + phase-6 tags into the publishable file:
+
+```markdown
+# <Post title>
+
+<!-- Outline (delete before publish)
+- user bullets preserved
+-->
+
+<final body with diagrams>
+
+#Tag1 #Tag2 #Tag3
+
+---
+**Ideas to develop further:**
+- ...
+---
+```
+
+Use `## Outline` instead of HTML comment if the user prefers a visible section.
+
+---
+
+## Revision mode (shortcut)
+
+When the user requests surgical edits after first draft:
+
+- Edit `blog-draft.md` directly
+- Do **not** re-run the full pipeline
+- Do **not** re-append "Ideas to develop further" on micro-edits
+- Optionally update `newsletter/polished.md` if the change is section-wide

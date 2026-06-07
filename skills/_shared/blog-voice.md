@@ -35,6 +35,7 @@ Headings are statements or questions, not SEO keyword stacks.
 - **Bold** sparingly — one must-not-miss phrase per section max
 - **Blockquotes** for quotes, sample messages, or one-line section maxims
 - **Code blocks** fenced, ~15 lines max, only when the topic needs code
+- **Mermaid diagrams** — 0–2 per post; small `flowchart`, `sequenceDiagram`, or `stateDiagram-v2`; prose explains, diagram illustrates
 - **Emojis** rationed — not in headings
 
 ## Human, not generated
