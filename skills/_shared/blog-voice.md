@@ -4,6 +4,15 @@ Reference doc for the `blog` skill. Not a Pi skill — no frontmatter.
 
 Load this when writing or revising `blog-draft.md`. Learning skills do not use this file.
 
+**Voice corpus (load with this file for first draft and voice pass):**
+
+- `voice-patterns.md` — openings, headings, transitions, expansion playbook, Phase 4 checklist
+- `voice-examples.md` — curated excerpts from pre-AI LinkedIn + Medium (rhythm anchors)
+- `voice-exclusions.md` — AI content and patterns to never mimic
+
+LinkedIn source (external): `~/Work/linkedin-scraped/ajay-prem-shankar`  
+Medium source: [ajaypremshankar.medium.com](https://ajaypremshankar.medium.com/)
+
 ---
 
 ## Voice
@@ -27,6 +36,20 @@ Load this when writing or revising `blog-draft.md`. Learning skills do not use t
 8. **Hashtags** — last line, 3–5 tags, PascalCase multi-word: `#DistributedSystems #Raft`
 
 Headings are statements or questions, not SEO keyword stacks.
+
+## Expansion playbook (LinkedIn-sized → blog)
+
+LinkedIn posts are ~150–350 words; blogs are ~500–900. Same voice, more room — not more jargon.
+
+1. **Hook** — question, confession, or reframe (see `voice-patterns.md` § Openings)
+2. **Setup** — 2–4 sentences from reflection: confusion, mistake, or click moment
+3. **H2 sections** — user's outline; each section = claim heading + personal beat + translated technical substance from `overview.md`
+4. **One analogy** where it helps — movie, everyday object, or visual (see `voice-examples.md`)
+5. **Bullets** only for actions, with bold lead-ins when listing advice
+6. **Close** — reader takeaway as maxim or plain statement
+7. **Optional `PS:`** — honest caveat; don't stack with a long maxim
+
+Full playbook and Medium pacing cues: `voice-patterns.md` § LinkedIn → blog expansion playbook.
 
 ## Formatting
 

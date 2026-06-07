@@ -8,6 +8,9 @@ description: Turn prior learning artifacts into a publishable blog draft in the 
 Shared references:
 
 - Voice: `skills/_shared/blog-voice.md`
+- Voice patterns: `skills/_shared/voice-patterns.md`
+- Voice examples: `skills/_shared/voice-examples.md`
+- Voice exclusions: `skills/_shared/voice-exclusions.md`
 - Pipeline: `skills/_shared/blog-pipeline.md`
 
 ## Goal
@@ -37,7 +40,7 @@ Resolve the target topic before reading artifacts.
 4. If `blog-draft.md` already exists, ask once: overwrite or revise existing draft
 5. `mkdir -p <topic-dir>/newsletter` for pipeline working files
 
-Load `blog-voice.md` and `blog-pipeline.md` before writing.
+Load `blog-voice.md`, `voice-patterns.md`, `voice-examples.md`, `voice-exclusions.md`, and `blog-pipeline.md` before writing.
 
 ## Flow
 
@@ -102,7 +105,10 @@ Only after steps 1–2 (and 3–4 if triggered). Run **all phases** in `blog-pip
 | `reflection.md` + session dialogue | Personal voice, hooks, anecdotes |
 | `overview.md` | Technical substance — translate, never lecture-copy |
 | `decision.md` | Narrative spine for design posts |
-| `blog-voice.md` | Tone, formatting, anti-slop |
+| `blog-voice.md` | Tone, formatting, anti-slop, expansion playbook |
+| `voice-patterns.md` | Openings, headings, transitions, Phase 4 checklist |
+| `voice-examples.md` | Curated pre-AI excerpts (rhythm anchors) |
+| `voice-exclusions.md` | AI content and deprecated patterns |
 | `blog-pipeline.md` | Phase-by-phase execution |
 
 Assemble final output into `blog-draft.md` per pipeline § Assemble.

@@ -47,8 +47,10 @@ Format:
 
 ## Phase 2 — Draft essay
 
-**Input:** wisdom, user's hierarchical outline, `blog-voice.md`  
+**Input:** wisdom, user's hierarchical outline, `blog-voice.md`, `voice-patterns.md`  
 **Output:** `newsletter/draft.md`
+
+Load `voice-patterns.md` § expansion playbook and § section headings before drafting.
 
 Write the full post following the user's outline faithfully:
 
@@ -81,12 +83,15 @@ Preserve: user's outline order, personal phrasing from reflection, fragments and
 
 ## Phase 4 — Voice pass (humanize)
 
-**Input:** `newsletter/polished.md`, `blog-voice.md`  
+**Input:** `newsletter/polished.md`, `blog-voice.md`, `voice-patterns.md`, `voice-examples.md`, `voice-exclusions.md`  
 **Output:** `newsletter/humanized.md` (skip writing this file if `--no-humanize`; still apply voice rules to final)
 
 Make it sound human-written in Ajay's voice:
 
-- Conversational rhythm — vary sentence length
+- Load `voice-patterns.md` and skim 2–3 relevant entries in `voice-examples.md` (match post type: career, technical, personal)
+- Run the Phase 4 checklist in `voice-patterns.md` before finalizing
+- Reject any phrasing that matches `voice-exclusions.md`
+- Conversational rhythm — vary sentence length; one-line paragraphs OK
 - Self-aware asides where reflection supports them
 - Remove any remaining AI-slop patterns from `blog-voice.md`
 - Do not add LinkedIn energy or guru framing
