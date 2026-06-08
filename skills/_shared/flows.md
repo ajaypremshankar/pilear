@@ -91,3 +91,23 @@ If the session feels comfortable, increase difficulty (FS learning zone). Boredo
 ```
 
 Populate from session dialogue. Prefer the user's voice where possible.
+
+---
+
+## 1.8 Learning record (competence state)
+
+**Use in:** `deep-dive` (after Feynman gate), `recall` (when recall demonstrates or corrects understanding)
+
+**Format:** `skills/_shared/learning-record-format.md`
+
+Write to `<learning-root>/<domain>/<subject>/learning-records/NNNN-slug.md` only on **evidence**, not coverage.
+
+**Coverage ≠ learning.** Session dialogue does not count as learned until the user demonstrates use (Feynman gate, scenario answer, or strong recall). Open gaps track *exposed* uncertainty; learning records track *resolved* understanding.
+
+---
+
+## 1.9 In-agent scenario (struggle)
+
+**Use in:** `deep-dive` step 3 (struggle), optionally `recall`
+
+One applied question before the Feynman gate, e.g. "Your leader just died — what happens first?" User answers; apply **Deliberate-practice feedback** (§1.6). Do not lecture through the scenario.

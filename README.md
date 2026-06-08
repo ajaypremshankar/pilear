@@ -10,7 +10,11 @@ Repo: https://github.com/ajaypremshankar/pilear
 
 ## What actually happens in a session
 
-You type `/teach <topic>`. You probably expect a lecture. You get a question:
+You type `/teach <topic>`. You probably expect a lecture. On a new subject you get mission questions first:
+
+> Why do you want to learn this? What does success look like?
+
+Then, for this session's scope:
 
 > What do you already know about this?
 
@@ -18,11 +22,17 @@ You stumble through an answer. Good — that's the point. The tutor asks simple 
 
 Before any file gets written, you explain the core idea without leaning on the vocabulary. Name the mechanism without using its label. If you can't, no `overview.md`. Sorry.
 
-When you do pass, you get three files under `<domain>/<subject>/`:
+When you do pass, you get durable files under `<domain>/<subject>/`:
 
-- `overview.md` — concepts, tradeoffs, what you still don't know
+- `MISSION.md` — why you're learning this, success criteria, out of scope, current session scope
+- `overview.md` — concepts, tradeoffs, sources, what you still don't know
 - `cheatsheet.md` — the scannable version
+- `glossary.md` — canonical terms (only after you've demonstrated them)
+- `resources.md` — curated papers, docs, communities
+- `learning-records/` — competence ADRs (what's actually established, not just covered)
 - `reflection.md` — what shifted in your understanding
+
+Workspace-level `NOTES.md` at your learning root holds teaching preferences across topics.
 
 Later: `/recall` on the same topic. No hints first. Gaps get logged.
 

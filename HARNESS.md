@@ -64,19 +64,33 @@ The active learning root is the directory where pi was started (`cwd`), injected
 
 Create the directory on first write.
 
-## Artifact types
+## Workspace files
+
+| File | Where | When |
+|------|-------|------|
+| `NOTES.md` | `<learning-root>/` | User teaching preferences (read every session if present) |
+
+Format: `skills/_shared/notes-format.md`
+
+## Artifact types (per topic)
 
 | File | When |
 |------|------|
-| `overview.md` | Concepts, Feynman explanation, tradeoffs, connections |
-| `cheatsheet.md` | Dense scannable reference |
+| `MISSION.md` | **Before first teach** — why, success criteria, out of scope, current session scope |
+| `overview.md` | Concepts, Feynman explanation, tradeoffs, connections, sources |
+| `cheatsheet.md` | Dense scannable reference (links to `glossary.md` for terms) |
+| `glossary.md` | Canonical terms — add only after demonstrated understanding |
+| `resources.md` | Curated trusted sources and communities for this topic |
+| `learning-records/*.md` | Competence ADRs — evidence of what is established (not coverage) |
 | `decision.md` | ADR-lite with falsifiers and updated beliefs |
 | `reflection.md` | Session-end: what changed, what's still open |
 | `blog/first-draft-blog.md` | `/blog` — publishable draft (copy to site manually) |
 | `blog/wisdom.md`, `blog/draft.md`, `blog/polished.md`, `blog/humanized.md` | `/blog` pipeline working files — optional to keep |
 | `blog/diagrams/*.mmd`, `blog/diagrams/*.svg` | `/blog` — diagram source and rendered SVG (linked from draft, not embedded) |
 
-Not every session needs all four learning files — follow the loaded skill. Everything under `blog/` is written only by the `blog` skill.
+Not every session needs every file — follow the loaded skill. `MISSION.md` is required before the first teach on a new subject (interview user if missing). Everything under `blog/` is written only by the `blog` skill.
+
+Shared formats: `skills/_shared/mission-format.md`, `learning-record-format.md`, `resources-format.md`, `glossary-format.md`.
 
 ## Shared overview sections
 
@@ -98,6 +112,7 @@ When writing `overview.md`, include these FS-aligned sections (skill may reorder
 
   Bare slugs work; paths are more reliable.
 
+- **Sources** — links to entries in `resources.md` or primary sources cited this session
 - **Open gaps** — honest unknowns
 - **What might change** — knowledge half-life; what could falsify this
 
