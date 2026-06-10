@@ -6,7 +6,7 @@ Load this when writing or revising `blog/first-draft-blog.md`. Learning skills d
 
 **Voice references (load with this file for first draft and voice pass):**
 
-- `voice-patterns.md` — openings, headings, transitions, expansion playbook, Phase 4 checklist
+- `voice-patterns.md` — openings, headings, transitions, expansion playbook, review loop 2 checklist
 - `voice-examples.md` — rhythm anchors by shape (hooks, sections, closings)
 - `voice-exclusions.md` — patterns to never mimic
 

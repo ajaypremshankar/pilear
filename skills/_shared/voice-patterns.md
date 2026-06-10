@@ -2,7 +2,7 @@
 
 Reference doc for the `blog` skill — not a Pi skill.
 
-Load in Phase 2 (draft shape) and Phase 4 (voice pass). Pair with `voice-examples.md` for rhythm anchors.
+Load in **build** (section subagents — § section headings, § Openings for hook) and **review loop 2** (voice pass). Pair with `voice-examples.md` for rhythm anchors.
 
 ---
 
@@ -117,7 +117,7 @@ Compact posts (~150–350 words) supply voice and punchlines; blogs (~500–900)
 
 ---
 
-## Phase 4 voice checklist
+## Review loop 2 voice checklist
 
 Before writing `humanized.md`:
 

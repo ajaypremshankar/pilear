@@ -85,7 +85,9 @@ Format: `skills/_shared/notes-format.md`
 | `decision.md` | ADR-lite with falsifiers and updated beliefs |
 | `reflection.md` | Session-end: what changed, what's still open |
 | `blog/first-draft-blog.md` | `/blog` — publishable draft (copy to site manually) |
-| `blog/wisdom.md`, `blog/draft.md`, `blog/polished.md`, `blog/humanized.md` | `/blog` pipeline working files — optional to keep |
+| `blog/plan.md`, `blog/wisdom.md` | `/blog` — blog loop task state |
+| `blog/sections/*.md` | `/blog` — per-heading drafts from parallel build |
+| `blog/draft.md`, `blog/polished.md`, `blog/humanized.md` | `/blog` review working files — optional to keep |
 | `blog/diagrams/*.mmd`, `blog/diagrams/*.svg` | `/blog` — diagram source and rendered SVG (linked from draft, not embedded) |
 
 Not every session needs every file — follow the loaded skill. `MISSION.md` is required before the first teach on a new subject (interview user if missing). Everything under `blog/` is written only by the `blog` skill.

@@ -83,12 +83,12 @@ Cache: `/.pilear/graph.json`. Gitignore it if you don't want it in version contr
 | `/next` | Suggest next topic from your graph |
 | `/map [domain]` | Draw the graph |
 | `/gaps` | List open gaps everywhere |
-| `/blog <topic>` | Draft a post from your artifacts via fabric pipeline (on demand) |
+| `/blog <topic>` | Draft a post from teach artifacts (blog loop — on demand) |
 | `/reindex` | Rebuild the graph |
 | `/suggest-links [topic]` | Propose Connections improvements |
 | `/learning-root` | Show where files go |
 
-`/blog` doesn't run automatically. You invoke it when you want a draft. It reads your overview and reflection, asks for an outline, then runs a multi-phase pipeline (wisdom → draft → polish → voice → quality gate → diagrams → tags). Working files land in `<topic>/blog/`; the publishable draft is `blog/first-draft-blog.md`. You copy to your site yourself.
+`/blog` doesn't run automatically. You invoke it when you want a draft. It reads your teach artifacts, proposes an outline, asks for goal/outcome/structure, then runs the blog loop: parallel subagents per section → stitch → polish → voice → quality gate → tags. Working files land in `<topic>/blog/` (`plan.md`, `sections/`, etc.); the publishable draft is `blog/first-draft-blog.md`. You copy to your site yourself.
 
 **Requires [fabric](https://github.com/danielmiessler/fabric).** Install one of:
 
@@ -98,9 +98,9 @@ brew install fabric-ai
 pip install fabric-ai
 ```
 
-The agent expects `fabric` or `fabric-ai` on your `PATH`. Without it, `/blog` cannot run the writing pipeline.
+The agent expects `fabric` or `fabric-ai` on your `PATH` for the quality gate (review loop 3). Section build and polish/voice loops run without fabric.
 
-Flags: `--list` (topics with overviews), `--humanize`, `--no-humanize`, `--skip-tags`.
+Flags: `--list` (topics with overviews), `--humanize`, `--no-humanize`, `--skip-diagrams`, `--skip-tags`.
 
 ## Install
 

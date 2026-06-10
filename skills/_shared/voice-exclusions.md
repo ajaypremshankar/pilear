@@ -1,6 +1,6 @@
 # Voice exclusions
 
-Reference doc for the `blog` skill. Load in Phase 4 (voice pass). Do not mimic anything listed here.
+Reference doc for the `blog` skill. Load in review loop 2 (voice pass). Do not mimic anything listed here.
 
 ---
 

@@ -2,37 +2,91 @@
 
 Reference doc for the `blog` skill. Not a Pi skill — no frontmatter.
 
-Run these phases **in order** after reader takeaway and hierarchical outline are collected. Each phase builds on the previous. Do not skip phases on first draft.
+File-based state, main agent as scheduler, parallel subagents for isolated section tasks, backpressure review loops.
+
+Also inherits fabric quality patterns (`check_falsifiability`, `rate_content`).
+
+**Requires [fabric](https://github.com/danielmiessler/Fabric)** (`fabric` or `fabric-ai` on `PATH`) for review loop 3. Section build and loops 1–2 are agent-executed.
 
 All blog outputs live under `<topic-dir>/blog/`. Do not write `newsletter/` or `blog-draft.md` at the topic root.
 
-Inspired by the fabric tech-blog pipeline (`extract_article_wisdom` → `write_essay_pg` → `improve_writing` → `humanize` → `check_falsifiability` → `rate_content` → `embed_blog_diagram` → `create_tags`).
+---
 
-**Requires [fabric](https://github.com/danielmiessler/Fabric)** (`fabric` or `fabric-ai` on `PATH`) for phase 5 quality gate. Phases 1–4 are agent-executed; phase 5 runs fabric CLI patterns.
+## Overview — three modes
+
+| Mode | When | Output |
+| --- | --- | --- |
+| **INTAKE** | Start of every first draft | User-confirmed goal, outcome, outline |
+| **BUILD** | After wisdom + plan | `blog/sections/*.md`, `blog/diagrams/*` |
+| **REVIEW** | After stitch | 2–3 loops → `first-draft-blog.md` |
+
+Main agent = **scheduler**. Do not draft all sections in main context when the plan has multiple section tasks — fan out subagents.
+
+Shared state file: **`blog/plan.md`**. Every loop reads it; mark tasks done as outputs land.
 
 ---
 
-## Phase 1 — Extract wisdom
+## Phase 0 — Intake (interactive)
 
-**Input:** `overview.md`, `reflection.md`, `decision.md` (if present), reader takeaway  
-**Output:** `blog/wisdom.md` (internal working file)
+**User must be in the loop.** Do not start wisdom or build until intake completes.
 
-Distill source material into blog-ready insights — not a copy of `overview.md`.
+### 0a. Read teach artifacts
 
-Extract:
+Read `MISSION.md`, `overview.md`, `reflection.md`, `decision.md` (if present).
 
-- 5–10 sharp insights the post can hang on
-- One personal beat from reflection (confusion, mistake, click moment)
-- 2–3 concrete examples or analogies already in the artifacts
-- What to **cut** — dense lecture material that doesn't serve the reader takeaway
+### 0b. Propose outline from teach structure
 
-Format:
+Map artifacts to a **default blog skeleton** and show the user as editable bullets:
+
+| Source | Suggested blog element |
+| --- | --- |
+| `reflection.md` → What changed / What I thought before | Hook, personal beat |
+| `MISSION.md` → Why | One-sentence problem setup |
+| `overview.md` → Explain it simply | Early H2 or hook extension |
+| `overview.md` → Core concepts | 1–3 H2 sections |
+| `overview.md` → Tradeoffs, Failure modes, Production gotchas | H2 sections as needed |
+| `decision.md` | Design-narrative sections (if angle C) |
+| User's north star (below) | Close / maxim |
+
+This is a **proposal**, not the final outline.
+
+### 0c. Interview (required)
+
+Ask in order; wait for answers:
+
+1. **Goal** — Why write this post now? What job is it doing for the reader?
+2. **Outcome** — What should readers walk away with? (north star — one learning or outcome)
+3. **Structure** — Sketch hierarchical bullets (hook, sections, sub-points, examples, close). Offer the teach-derived proposal as a starting point they can accept, edit, or replace.
+
+Optional if outline already implies the lead:
+
+4. **Angle** — A) Personal story B) Concept explainer C) Design narrative D) You pick from artifacts
+
+### 0d. Thin reflection fallback
+
+If `reflection.md` lacks personal material, ask once for 5–10 rough lines before build. Do not start Phase 1 until the user provides them or substantive reflection exists.
+
+---
+
+## Phase 1 — Wisdom + plan
+
+**Input:** intake answers, teach artifacts  
+**Output:** `blog/wisdom.md`, `blog/plan.md`
+
+`mkdir -p <topic-dir>/blog/sections` and `blog/diagrams`.
+
+### Wisdom (`blog/wisdom.md`)
+
+Same as before — distill, do not copy `overview.md`:
 
 ```markdown
 # Wisdom — <topic>
 
+## Goal
+<from intake>
+
 ## Reader takeaway (north star)
-<user's one-liner>
+<outcome from intake>
 
 ## Insights
 - ...
@@ -47,198 +101,217 @@ Format:
 - ...
 ```
 
+### Plan (`blog/plan.md`)
+
+Task list in `blog/plan.md`. One row per parallel build task + review iterations.
+
+```markdown
+# Blog plan — <topic>
+
+## Goal
+<from intake>
+
+## North star
+<reader outcome>
+
+## Outline
+<user's hierarchical bullets — authoritative>
+
+## Build tasks
+
+| ID | Type | Title | Status | Output |
+| --- | --- | --- | --- | --- |
+| hook | section | Hook | pending | blog/sections/hook.md |
+| <slug> | section | <H2 title> | pending | blog/sections/<slug>.md |
+| close | section | Close | pending | blog/sections/close.md |
+| diag-<slug> | diagram | <concept> | pending | blog/diagrams/<slug>.mmd |
+
+## Review tasks
+
+| Iter | Focus | Status | Output |
+| --- | --- | --- | --- |
+| 1 | polish | pending | blog/polished.md |
+| 2 | voice | pending | blog/humanized.md |
+| 3 | quality | pending | blog/first-draft-blog.md |
+```
+
+Rules for build tasks:
+
+- One **section** task per major outline bullet (hook and close are sections too)
+- Add **diagram** tasks only where a visual clearly helps (0–2 typical); skip all diagram rows if `--skip-diagrams`
+- Slugs: kebab-case from section title
+- Mark `done` when output file exists and passes section checklist (below)
+
 ---
 
-## Phase 2 — Draft essay
+## Phase 2 — Build (parallel subagents)
 
-**Input:** wisdom, user's hierarchical outline, `blog-voice.md`, `voice-patterns.md`  
+**Input:** `blog/wisdom.md`, `blog/plan.md`, voice refs  
+**Output:** `blog/sections/*.md`, optional `blog/diagrams/*.{mmd,svg}`
+
+### Scheduler rules (main agent)
+
+1. Read `blog/plan.md` — list all build tasks with `pending`
+2. If **one** section task only, main agent may write it directly
+3. If **two or more** section/diagram tasks, **fan out parallel subagents** (Task tool) — one agent per task, same turn when possible
+4. Do not draft full sections in main context when parallel tasks exist
+5. After subagents return, verify outputs, update plan statuses, fix any failed tasks (one retry max per task)
+
+### Section subagent brief
+
+Each subagent receives only:
+
+- North star + goal
+- This section's outline bullet (and nested sub-bullets)
+- Relevant wisdom excerpt (insights, personal beat, examples for this section)
+- Word budget: ~80–200 words per H2 unless outline implies more; hook ~2–4 lines
+- Pointers: `blog-voice.md` § expansion playbook, `voice-patterns.md` § section headings (and § Openings for hook task)
+- Output path: `blog/sections/<slug>.md`
+
+Section file format:
+
+```markdown
+## <Section title as H2 text>
+
+<prose only — no frontmatter; hook section may omit the H2 line and use plain paragraphs>
+
+<!-- diagram:<slug> -->   ← only if plan has diagram task with this slug (no spaces after colon)
+```
+
+Diagram placeholder slug **must match** the diagram task's `<slug>` in `blog/plan.md` (e.g. task `diag-raft-election` → `<!-- diagram:raft-election -->`).
+
+Section checklist (subagent self-check before write):
+
+- [ ] Serves north star — does not introduce unrelated ideas
+- [ ] At least one concrete example or personal beat where outline calls for it
+- [ ] Heading is statement or question, not SEO keyword stack
+- [ ] No guru words from `blog-voice.md`
+
+### Diagram subagent brief
+
+Each diagram subagent:
+
+1. Writes `blog/diagrams/<slug>.mmd` — landscape-first (`flowchart LR`, see rules below)
+2. Runs render:
+
+   ```bash
+   npx -y @mermaid-js/mermaid-cli -i blog/diagrams/<slug>.mmd -o blog/diagrams/<slug>.svg -w 1000 -H 450
+   ```
+
+3. Does not write prose — diagram only
+
+If `npx` fails, leave `.mmd` and mark diagram task pending with note in plan.
+
+### Diagram source rules
+
+| Diagram type | Prefer | Avoid |
+| --- | --- | --- |
+| Flow / process | `flowchart LR` | `flowchart TD` (unless concept is vertical) |
+| Interactions | `sequenceDiagram` | Long vertical participant lists |
+| States | `stateDiagram-v2` + `direction LR` | Deep vertical chains |
+
+≤12 nodes; one idea per diagram. Do not embed mermaid in section files — placeholder comment only.
+
+---
+
+## Phase 3 — Stitch
+
+**Input:** `blog/sections/*.md`, `blog/plan.md` outline order  
 **Output:** `blog/draft.md`
 
-Load `voice-patterns.md` § expansion playbook and § section headings before drafting.
+Main agent (scheduler):
 
-Write the full post following the user's outline faithfully:
-
-- One H2 per major outline bullet; nest sub-bullets as `###` only when the user nested them
-- Lead with hook from reflection or outline — not a definition
-- Translate technical substance from wisdom — never paste overview sections
-- Target 500–900 words unless the outline clearly needs more
-- Placeholder `<!-- diagram: <concept> -->` where a visual would help (phase 6 fills these)
-
-Do **not** add hashtags or "Ideas to develop further" yet.
+1. Read sections in **outline order** (hook → H2s → close)
+2. Write transitions between sections where jumps feel abrupt — light touch, preserve section voice
+3. Replace `<!-- diagram:<slug> -->` with `![caption](diagrams/<slug>.svg)` when SVG exists; caption in prose above image
+4. Remove any remaining `<!-- diagram:... -->` placeholders (failed render or no SVG)
+5. Do **not** add hashtags or "Ideas to develop further" yet
+6. Target 500–900 words total unless outline clearly needs more
 
 ---
 
-## Phase 3 — Polish
+## Phase 4 — Review loops (2–3 iterations)
 
 **Input:** `blog/draft.md`  
+**Output:** progressive files → `first-draft-blog.md`
+
+Run **in order**. Update `blog/plan.md` review task status after each. Max **3** review iterations on first draft.
+
+### Loop 1 — Polish
+
 **Output:** `blog/polished.md`
 
-Improve clarity and flow without changing structure or voice choices:
+- Cut filler, redundancy, throat-clearing
+- Strengthen H2 transitions
+- Grammar per `blog-voice.md` § Grammar fixes
+- Close delivers north star
+- Preserve outline order and personal phrasing
 
-- Cut filler, redundancy, and throat-clearing
-- Strengthen transitions between H2 sections
-- Fix grammar per `blog-voice.md` § Grammar fixes
-- Ensure close delivers the reader takeaway
-- Flag any sentence that sounds like SEO/consultant copy — rewrite it
+### Loop 2 — Voice
 
-Preserve: user's outline order, personal phrasing from reflection, fragments and one-line paragraphs.
+**Output:** `blog/humanized.md` (merge into `polished.md` if `--no-humanize`)
 
----
+- Load `voice-patterns.md`, skim `voice-examples.md`, reject `voice-exclusions.md`
+- Run the review loop 2 checklist in `voice-patterns.md`
+- Conversational rhythm; one-line paragraphs OK
+- **`--humanize`:** extra casual pass — looser fragments, still anti-slop
+- **`--no-humanize`:** apply voice rules during loop 1 instead; skip separate humanized file
 
-## Phase 4 — Voice pass (humanize)
+### Loop 3 — Quality gate
 
-**Input:** `blog/polished.md`, `blog-voice.md`, `voice-patterns.md`, `voice-examples.md`, `voice-exclusions.md`  
-**Output:** `blog/humanized.md` (skip writing this file if `--no-humanize`; still apply voice rules to final)
+**Input:** `blog/humanized.md` or `blog/polished.md`  
+**Output:** revised body; `blog/falsifiability-audit.md`; `blog/content-rating.md`; assemble `first-draft-blog.md`
 
-Make it sound human-written in Ajay's voice:
-
-- Load `voice-patterns.md` and skim 2–3 relevant entries in `voice-examples.md` (match post type: career, technical, personal)
-- Run the Phase 4 checklist in `voice-patterns.md` before finalizing
-- Reject any phrasing that matches `voice-exclusions.md`
-- Conversational rhythm — vary sentence length; one-line paragraphs OK
-- Self-aware asides where reflection supports them
-- Remove any remaining AI-slop patterns from `blog-voice.md`
-- Do not add guru framing or engagement-bait sign-offs
-
-**`--humanize` flag (prompt):** run an extra casual pass — looser fragments, more texty asides. Still follow anti-slop rules.
-
-**`--no-humanize` flag (prompt):** merge phases 3–4 — polish with voice rules inline, skip separate humanized file.
-
----
-
-## Phase 5 — Quality gate (falsifiability + content rating)
-
-**Input:** `blog/humanized.md` (or `blog/polished.md` if `--no-humanize`)  
-**Output:** revised essay body; `blog/falsifiability-audit.md`; `blog/content-rating.md`
-
-Run via **fabric CLI** — do not simulate. From `<topic-dir>`:
+Run via fabric CLI from `<topic-dir>`. Use `blog/humanized.md` unless `--no-humanize` (then `blog/polished.md`):
 
 ```bash
-cat blog/humanized.md | fabric -p check_falsifiability > blog/falsifiability-audit.md
-cat blog/humanized.md | fabric -p rate_content > blog/content-rating.md
+ESSAY=blog/humanized.md   # or blog/polished.md when --no-humanize
+cat "$ESSAY" | fabric -p check_falsifiability > blog/falsifiability-audit.md
+cat "$ESSAY" | fabric -p rate_content > blog/content-rating.md
 ```
 
-Use `blog/polished.md` instead of `humanized.md` when `--no-humanize`. Use `fabric-ai` if `fabric` is not on `PATH`.
-
-If the CLI fails (missing binary, API key, network), report the error. Fall back to applying each pattern's `system.md` logic inline and still write the audit files — but always try the CLI first.
-
-### Loop
+Inner revision loop (max 3 passes within loop 3):
 
 ```
-essay → fabric -p check_falsifiability → revise → fabric -p rate_content → revise → repeat
+essay → falsifiability → revise → rate_content → revise → repeat
 ```
 
-1. **Falsifiability audit** — save CLI output to `blog/falsifiability-audit.md`. Expect: CLAIMS IDENTIFIED, FALSIFIABILITY ANALYSIS, KAFKA TRAP CHECK, OVERALL FALSIFIABILITY RATING, PROPOSED TESTS, RECOMMENDATIONS.
-
-2. **Revise from falsifiability** — overwrite `blog/humanized.md` (or `polished.md`):
-   - Replace guru-speak with specific stories or testable claims
-   - Qualify universal claims with PS-style limits (*"worked for me at a 15-person startup"*)
-   - Remove moving-goalpost and Kafka-trap framing
-
-3. **Content rating** — save CLI output to `blog/content-rating.md`. Expect: LABELS, RATING (S–D tier), CONTENT SCORE (1–100).
-
-4. **Revise from rating** — improve weakest section:
-   - Low idea count → add angles or counterpoints, not padding
-   - Below S Tier or score < 90 → rewrite the weakest H2
-
-5. **Repeat** until exit criteria pass (max 5 iterations). If still below threshold, stop and ask user whether to ship or keep iterating.
-
-### Exit criteria
+**Exit criteria:**
 
 | Gate | Threshold |
 | --- | --- |
-| Falsifiability | **FULLY** or **MOSTLY FALSIFIABLE**; no Kafka traps |
-| Content rating | **S Tier** |
-| Content score | **≥ 90** |
-| Voice | Still sounds like Ajay — check `voice-exclusions.md` after each revision |
+| Falsifiability | FULLY or MOSTLY FALSIFIABLE; no Kafka traps |
+| Content rating | S Tier |
+| Content score | ≥ 90 |
+| Voice | Still Ajay — check exclusions after each revision |
 
-Show audit summary in chat (not in `first-draft-blog.md`):
+If CLI fails, apply pattern logic inline and still write audit files.
+
+Show summary in chat (not in draft):
 
 ```
 ---
 **Quality gate (passed)**
 - Falsifiability: [rating]
 - Content: S Tier, score [N]/100
-- Iterations: [N]
+- Review loops: 3
 ---
 ```
 
-| Weak (unfalsifiable) | Strong (falsifiable / honest) |
-| --- | --- |
-| "Raft solves all consensus problems" | "Raft made leader election click for me — here's where I still get confused" |
-| "Always use rate limiting" | "We added rate limiting and p99 dropped 40% — might not matter at your scale" |
+If still below threshold after 3 inner revisions, stop and ask user: ship or keep iterating.
 
 ---
 
-## Phase 6 — Generate diagram SVGs
-
-**Input:** phase-5 essay (`blog/humanized.md` or `blog/polished.md`), `blog/wisdom.md`, `overview.md`  
-**Output:** `blog/diagrams/*.mmd`, `blog/diagrams/*.svg`, final body with image references (no embedded Mermaid)
-
-For each `<!-- diagram: ... -->` placeholder and any complex mechanism that benefits from a visual:
-
-1. **Write source** — `blog/diagrams/<slug>.mmd` (kebab-case slug from concept, e.g. `raft-leader-election.mmd`)
-2. **Render SVG** — from the topic directory, run for each `.mmd` file (agent executes this; do not ask the user to run it):
-
-   ```bash
-   npx -y @mermaid-js/mermaid-cli -i blog/diagrams/<slug>.mmd -o blog/diagrams/<slug>.svg -w 1000 -H 450
-   ```
-
-   Requires Node/npm on `PATH`. `-y` skips the npx install prompt. `-w 1000 -H 450` targets a **landscape** canvas (~2:1) suited to inline blog width — not portrait. Run once per diagram. Do not proceed to assemble until every `.mmd` has a matching `.svg`.
-
-   If `npx` fails (no Node, network error), report the error and the exact command; keep `.mmd` files and image refs in the draft so the user can retry.
-
-3. **Link in prose** — replace the placeholder with a markdown image **after** the paragraph that introduces the concept (paths relative to `blog/first-draft-blog.md`):
-
-   ```markdown
-   ![Short caption — what the diagram shows](diagrams/<slug>.svg)
-   ```
-
-   Caption in prose above the image — the diagram is not the explanation.
-
-**Mermaid source rules (landscape-first for blog reading):**
-
-Blog content columns are wide and short — diagrams should read **left-to-right**, not top-to-bottom. Avoid portrait/tall SVGs when a horizontal layout works.
-
-| Diagram type | Prefer | Avoid |
-|--------------|--------|-------|
-| Flow / process | `flowchart LR` | `flowchart TD` (unless layers/stacks must be vertical) |
-| Interactions | `sequenceDiagram` (naturally wide) | Long vertical participant lists |
-| States | `stateDiagram-v2` with `direction LR` when supported | Deep vertical state chains |
-| Layers / stack | `flowchart TB` only when the concept *is* vertical (OSI stack, call stack) | TD by default |
-
-Layout habits:
-
-- Place nodes in a **single horizontal row** or two shallow rows — not a long column
-- Split a tall idea into **two landscape diagrams** rather than one portrait diagram
-- Keep labels short; wrap long text breaks landscape layout
-- ≤12 nodes/lines; one idea per diagram
-- Do **not** embed ` ```mermaid ` fences in `blog/first-draft-blog.md`
-
-If a rendered SVG is still taller than wide, rework the `.mmd` to LR layout and re-run `mmdc`.
-
-Remove unfilled placeholders. Do not add diagrams to every section — 0–2 per post is typical.
-
-**`--skip-diagrams` flag:** remove all `<!-- diagram: ... -->` placeholders; skip writing `blog/diagrams/`; proceed to phase 7.
-
----
-
-## Phase 7 — Tags
+## Phase 5 — Tags
 
 **Input:** final essay body  
-**Output:** hashtag line appended to `blog/first-draft-blog.md`
+**Output:** hashtag line in `blog/first-draft-blog.md`
 
-Generate 3–5 tags unless `--skip-tags`:
-
-- PascalCase multi-word: `#DistributedSystems #Raft`
-- Match post substance, not SEO keyword stuffing
-- Last content line before optional "Ideas to develop further" block
+3–5 PascalCase tags unless `--skip-tags`. Last content line before optional "Ideas to develop further".
 
 ---
 
 ## Assemble `blog/first-draft-blog.md`
-
-Copy the phase-6 body + phase-7 tags into the publishable file:
 
 ```markdown
 # <Post title>
@@ -257,15 +330,24 @@ Copy the phase-6 body + phase-7 tags into the publishable file:
 ---
 ```
 
-Use `## Outline` instead of HTML comment if the user prefers a visible section.
-
 ---
 
 ## Revision mode (shortcut)
 
-When the user requests surgical edits after first draft:
+When user requests surgical edits after first draft:
 
 - Edit `blog/first-draft-blog.md` directly
-- Do **not** re-run the full pipeline
+- Do **not** re-run build or review loops
 - Do **not** re-append "Ideas to develop further" on micro-edits
-- Optionally update `blog/polished.md` if the change is section-wide
+- Full rewrite only if user asks to re-run `/blog`
+
+---
+
+## Flags
+
+| Flag | Effect |
+| --- | --- |
+| `--humanize` | Extra casual voice in loop 2 |
+| `--no-humanize` | Merge loops 1–2 |
+| `--skip-diagrams` | No diagram tasks; strip placeholders |
+| `--skip-tags` | Omit phase 5 |

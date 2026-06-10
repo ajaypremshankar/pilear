@@ -1,6 +1,6 @@
 # Voice examples (Ajay)
 
-Rhythm anchors for Phase 4. Tags describe **shape**, not source. **Do not copy verbatim** into new posts.
+Rhythm anchors for review loop 2 (voice pass). Tags describe **shape**, not source. **Do not copy verbatim** into new posts.
 
 ---
 
