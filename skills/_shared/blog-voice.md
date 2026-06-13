@@ -21,30 +21,55 @@ Load this when writing or revising `blog/first-draft-blog.md`. Learning skills d
 - **Show, don't preach.** Concrete examples and personal beats — not abstract principles alone.
 - **Slightly irreverent when it fits** — quiet joke, self-roast. Don't force pop-culture references.
 
-## Structure (default ~500–900 words)
+## Conciseness (default)
 
-1. **Hook** — question, confession, or title-teasing line (1–2 lines)
-2. **One-sentence setup** of the problem
-3. **2–5 H2 sections** — one idea each; follow the user's hierarchical outline
-4. **Concrete example or anecdote** per section where possible
-5. **Bullets** for actions, not for ideas
-6. **Close** — reader takeaway as maxim or plain statement (from pre-draft intake)
-7. **Optional `PS:`** — italic, honest caveat or incomplete thinking
+**To the point beats comprehensive.** Readers should finish in under 5 minutes.
+
+- **Default length:** 350–600 words. Use `--long` only when the outline clearly needs 500–900 (multi-beat design narrative, 5+ H2s).
+- **One idea per H2** — claim + one beat (personal *or* technical, not both restating the same point).
+- **Cut before expand:** strip `overview.md` to the minimum that delivers the north star. If a sentence doesn't change what the reader believes or does, delete it.
+- **No throat-clearing:** ban setup paragraphs that only announce what the post will say ("In this post we'll explore…", "Let's break this down").
+- **No double explanation:** don't state the heading, then paraphrase the heading, then give the example. Heading → example or mechanism → done.
+- **Transitions:** omit unless the jump is genuinely confusing. Stitch should not add bridge sentences by default.
+- **Analogies:** one per post max. Technical sections prefer one concrete sentence over a paragraph of metaphor.
+- **Lists:** 3 bullets max when used; bullets are actions only.
+
+**Verbose patterns to cut on sight:**
+
+| Pattern | Fix |
+| --- | --- |
+| "In other words…" / "What this means is…" | Delete — say it once, correctly |
+| "It's important to note…" / "It's worth mentioning…" | Delete the hedge; state the fact |
+| Restating the H2 in the first sentence | Delete the restatement |
+| Personal beat + technical paragraph saying the same thing | Keep the sharper one |
+| Multi-sentence hook before the thesis | Hook = 1–2 lines; thesis immediately after |
+
+Loop 1 (**Tighten**) must cut at least **15%** word count vs `blog/draft.md` unless already under 350 words.
+
+## Structure (default 350–600 words; `--long` → 500–900)
+
+1. **Hook** — question, confession, or title-teasing line (**1–2 lines**, not a paragraph)
+2. **One-sentence setup** of the problem — no more
+3. **2–4 H2 sections** — one idea each; follow the user's hierarchical outline
+4. **One concrete example or anecdote** in the post (not necessarily every section)
+5. **Bullets** for actions only, max 3 items
+6. **Close** — reader takeaway as maxim or plain statement (**1–2 sentences**)
+7. **Optional `PS:`** — one line; skip if close already carries the caveat
 8. **Hashtags** — last line, 3–5 tags, PascalCase multi-word: `#DistributedSystems #Raft`
 
 Headings are statements or questions, not SEO keyword stacks.
 
 ## Expansion playbook (short insight → blog)
 
-Compact posts are ~150–350 words; blogs are ~500–900. Same voice, more room — not more jargon.
+Compact posts are ~150–350 words; default blogs are **350–600** (`--long` → 500–900). Same voice — **not** more words, not more jargon.
 
-1. **Hook** — question, confession, or reframe (see `voice-patterns.md` § Openings)
-2. **Setup** — 2–4 sentences from reflection: confusion, mistake, or click moment
-3. **H2 sections** — user's outline; each section = claim heading + personal beat + translated technical substance from `overview.md`
-4. **One analogy** where it helps — movie, everyday object, or visual (see `voice-examples.md`)
-5. **Bullets** only for actions, with bold lead-ins when listing advice
-6. **Close** — reader takeaway as maxim or plain statement
-7. **Optional `PS:`** — honest caveat; don't stack with a long maxim
+1. **Hook** — 1–2 lines (see `voice-patterns.md` § Openings)
+2. **Setup** — **one sentence** from reflection: confusion, mistake, or click moment
+3. **H2 sections** — user's outline; each section = claim heading + **one** of: personal beat, translated technical substance, or actionable bullets — not all three
+4. **One analogy** per post where it helps — not per section
+5. **Bullets** only for actions, max 3, with bold lead-ins when listing advice
+6. **Close** — 1–2 sentences; reader takeaway as maxim or plain statement
+7. **Optional `PS:`** — one line; don't stack with a long maxim
 
 Full playbook and essay shapes: `voice-patterns.md` § Expansion playbook.
 
@@ -66,6 +91,7 @@ Before finalizing a section:
 - No "What do you think? Comment below!" or social promo sign-offs
 - No 8+ section headings — suggest splitting into two posts
 - Prefer one sharp idea over comprehensive coverage — cut `overview.md` density hard
+- If a section exceeds ~100 words, split the idea or cut — don't let subagents pad to "feel complete"
 - Preserve the user's phrasing from reflection and session dialogue where it's already good
 
 ## Grammar fixes (when editing)

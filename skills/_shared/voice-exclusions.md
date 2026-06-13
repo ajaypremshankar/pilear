@@ -15,6 +15,19 @@ Reference doc for the `blog` skill. Load in review loop 2 (voice pass). Do not m
 
 ---
 
+## Verbose / padded prose (cut in loop 1)
+
+- Definition-first opening paragraphs ("X is a…" for 3+ sentences before the point)
+- "In this post / article / piece, we will…" meta-announcements
+- "In other words", "To put it simply", "What this means is", "It's worth noting"
+- Heading restated as the section's first sentence
+- Same idea in personal beat and technical paragraph — keep one
+- Bridge transitions between every H2 ("Now that we understand X, let's look at Y")
+- Stacked analogies (more than one per post)
+- Closing that summarizes every section instead of delivering the north star once
+
+---
+
 ## Deprecated sign-offs (no longer use)
 
 - "What do you think? Let me know in the comments!"

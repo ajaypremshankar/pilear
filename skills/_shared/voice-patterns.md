@@ -89,22 +89,21 @@ Deliver the **reader takeaway** from intake as maxim or plain statement. Pick ma
 
 ## Expansion playbook (short insight → blog)
 
-Use when turning a compact insight (from reflection) into a 500–900 word `blog/first-draft-blog.md`:
+Use when turning a compact insight (from reflection) into a **350–600 word** `blog/first-draft-blog.md` (`--long` → 500–900):
 
 1. **Hook (1–2 lines)** — question, confession, or reframe from reflection
-2. **Setup (2–4 sentences)** — personal beat: confusion, mistake, or what changed
-3. **H2 sections (2–5)** — follow user's hierarchical outline; each section:
+2. **Setup (1 sentence)** — personal beat: confusion, mistake, or what changed
+3. **H2 sections (2–4)** — follow user's hierarchical outline; each section:
    - One claim (statement heading)
-   - Personal anecdote or analogy (2–4 sentences)
-   - Technical substance from `overview.md`, translated — not pasted
-   - Optional: one bullet list if the section is actionable
-4. **Close** — reader takeaway as maxim or direct statement
-5. **Optional PS** — honest caveat or incomplete thinking
+   - **One** of: personal anecdote (1–2 sentences), technical substance from `overview.md` (translated, not pasted), or short action bullets (≤3)
+   - Do not stack anecdote + mechanism if they make the same point
+4. **Close** — 1–2 sentences; reader takeaway as maxim or direct statement
+5. **Optional PS** — one line
 6. **Hashtags** — last line, 3–5 tags
 
-**Do not pad.** Expand with story and example, not filler adjectives.
+**Do not pad.** Expand only when a missing example or mechanism would leave the reader wrong. Never add filler adjectives, throat-clearing, or restated headings.
 
-**Essay shapes to scale up:**
+**Essay shapes to scale up** (use `--long` sparingly):
 
 | Shape | Structure |
 |-------|-----------|
@@ -113,7 +112,7 @@ Use when turning a compact insight (from reflection) into a 500–900 word `blog
 | Stat + practice | Quote or stat → "Here's what I have been doing" → action list → empathetic close |
 | Decision guide | Bold-labeled sections (e.g. Policy, Culture) → "So what to do?" bullets |
 
-Compact posts (~150–350 words) supply voice and punchlines; blogs (~500–900) add room for story and technical substance — same register, not more jargon.
+Compact posts (~150–350 words) supply voice and punchlines; default blogs (350–600) add one layer of story or mechanism — same register, fewer words, not more jargon.
 
 ---
 
@@ -121,6 +120,9 @@ Compact posts (~150–350 words) supply voice and punchlines; blogs (~500–900)
 
 Before writing `humanized.md`:
 
+- [ ] Total length on track for 350–600 words (or `--long` budget)
+- [ ] Hook is 1–2 lines, not a setup paragraph
+- [ ] No section restates its H2 in the opening sentence
 - [ ] Hook uses an Ajay opening shape (not a definition-first paragraph)
 - [ ] H2 headings are statements/questions, not keyword stacks
 - [ ] Each major section has a personal beat from reflection (not invented biography)
