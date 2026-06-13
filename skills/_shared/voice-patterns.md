@@ -36,6 +36,8 @@ Long essays use H3 for major beats within one arc; pilear blogs use H2 per user 
 
 ## Transitions and pivots
 
+**Within-section only.** Use these for pivots inside a section (hook → beat, anecdote → mechanism). Do **not** add H2 bridge sentences between sections — stitch hard-cuts; see `blog-voice.md` § Conciseness and `voice-exclusions.md` § Verbose / padded prose.
+
 - "My world turned upside down and it changed my style of building software forever."
 - "Exactly the same applies to [technical concept]."
 - "The issue isn't logic or math. It is people's behaviour around situations."
@@ -125,7 +127,7 @@ Before writing `humanized.md`:
 - [ ] No section restates its H2 in the opening sentence
 - [ ] Hook uses an Ajay opening shape (not a definition-first paragraph)
 - [ ] H2 headings are statements/questions, not keyword stacks
-- [ ] Each major section has a personal beat from reflection (not invented biography)
+- [ ] Post has ≥1 personal beat or concrete example from reflection where the outline calls for it (post-level OK — not every section; technical sections may use mechanism-only; do not invent biography)
 - [ ] No sentence sounds like consultant/SEO copy — rewrite if yes
 - [ ] Close matches reader takeaway from intake
 - [ ] Checked `voice-exclusions.md` — no AI-generated tone, no deprecated sign-offs, no guru words

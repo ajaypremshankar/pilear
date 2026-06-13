@@ -236,7 +236,7 @@ Main agent (scheduler):
 
 1. Read sections in **outline order** (hook → H2s → close)
 2. **Do not add transition sentences** unless a jump is genuinely confusing — prefer a hard cut between sections
-3. **Trim to budget:** default **350–600 words** (`--long` → 500–900). If over, cut the weakest redundant sentence per section before writing `draft.md`
+3. **Trim to budget:** default **350–600 words** (`--long` → 500–900). The range is a **ceiling** — if over, cut the weakest redundant sentence per section before writing `draft.md`. Under the floor is OK; do not pad to hit a minimum.
 4. Replace `<!-- diagram:<slug> -->` with `![caption](diagrams/<slug>.svg)` when SVG exists; caption = one short phrase, not a paragraph
 5. Remove any remaining `<!-- diagram:... -->` placeholders (failed render or no SVG)
 6. Do **not** add hashtags or "Ideas to develop further" yet
@@ -352,7 +352,7 @@ Run **in order**. Update `blog/plan.md` review task status after each. **4** rev
 Primary job: **make it shorter and sharper**, not prettier.
 
 1. Count words in `blog/draft.md`. Target **350–600** (`--long` → 500–900). If over budget, cut until in range.
-2. Cut **≥15%** vs draft unless already ≤350 words
+2. Cut **≥15%** vs draft unless already at or below the **budget floor** (350 default; 500 when `--long`)
 3. Apply `voice-exclusions.md` § Verbose / padded prose — delete every match
 4. Cut filler, redundancy, throat-clearing, heading restatements, duplicate beats
 5. **Do not add** transition sentences or new examples — only remove and tighten
@@ -370,7 +370,7 @@ Record in chat: `Draft: N words → Polished: M words (−X%)`
 - Run the review loop 2 checklist in `voice-patterns.md`
 - Conversational rhythm; one-line paragraphs OK
 - **`--humanize`:** extra casual pass — looser fragments, still anti-slop
-- **`--no-humanize`:** apply voice rules during loop 1 instead; skip separate humanized file
+- **`--no-humanize`:** during loop 1, also run the review loop 2 checklist in `voice-patterns.md`; write only `blog/polished.md` (no `humanized.md`); mark plan iters **1** and **2** `done` when polish passes both tighten and voice checks; loops 3–4 use `polished.md` as the working essay file
 
 ### Loop 3 — Mental picture
 
@@ -506,6 +506,8 @@ essay → falsifiability → revise → rate_content → revise → repeat
 
 If CLI fails, apply pattern logic inline and still write audit files.
 
+Before assembling `first-draft-blog.md`, spot-check that loop 4 revisions did not reintroduce claims that would fail Phase 3.5a — compare new factual statements against `blog/fact-audit.md` and teach artifacts; patch the essay if any would be `unsupported` or `contradicts`.
+
 Show summary in chat (not in draft):
 
 ```
@@ -569,7 +571,7 @@ When user requests surgical edits after first draft:
 | Flag | Effect |
 | --- | --- |
 | `--humanize` | Extra casual voice in loop 2 |
-| `--no-humanize` | Merge loops 1–2 |
+| `--no-humanize` | Merge loops 1–2 into one polish pass on `polished.md`; mark plan iters 1+2 done; loops 3–4 use `polished.md` |
 | `--long` | Target 500–900 words; section budget 80–150 words/H2 |
 | `--skip-diagrams` | No diagram tasks; strip placeholders |
 | `--skip-correctness` | Skip Phase 3.5 (fact audit + concept gate) |

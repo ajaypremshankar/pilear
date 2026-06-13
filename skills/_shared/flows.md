@@ -9,7 +9,9 @@ Mode-skills point here for canonical flow fragments. Follow the sections referen
 ## 1.1 Feynman gate (required before artifacts)
 
 **Use in:** `deep-dive`, `mock-design`  
-**Skip in:** `recall`, `design-review`, `code-explore`
+**Skip in:** `recall`, `design-review`, `code-explore`, `blog`
+
+**Blog note:** `/blog` runs a lighter subset in Phase 3.5b (name test only) — see `blog-pipeline.md` § Phase 3.5. Do not run the full sixth-grader explain-back from steps 1–4 here.
 
 1. Ask user to explain the topic **without jargon**, as to a smart sixth-grader.
 2. **Name test:** rephrase one key mechanism without using the technical term (e.g. explain leader election without saying "leader" or "election").

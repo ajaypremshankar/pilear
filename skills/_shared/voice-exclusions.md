@@ -1,6 +1,6 @@
 # Voice exclusions
 
-Reference doc for the `blog` skill. Load in review loop 2 (voice pass). Do not mimic anything listed here.
+Reference doc for the `blog` skill. Load **loop 1** for § Verbose / padded prose cuts; load **loop 2** (and after loop 4 revisions) for the full reject list. Do not mimic anything listed here.
 
 ---
 

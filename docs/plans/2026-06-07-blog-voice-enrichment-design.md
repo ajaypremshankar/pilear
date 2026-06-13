@@ -1,7 +1,7 @@
 # Blog voice enrichment — design
 
 **Date:** 2026-06-07  
-**Status:** Approved
+**Status:** Implemented (superseded in part by conciseness + mental-picture gates — see `blog-pipeline.md`)
 
 ## Problem
 
@@ -9,32 +9,36 @@
 
 ## Approach
 
-Patterns were mined from the author's short-form posts (voice DNA: phrases, hooks, maxims) and long-form essays (pacing DNA: section structure, expansion to 500–1500 words). Only distilled patterns and excerpts live in-repo — no external corpus references in the skill files.
+Patterns were mined from the author's short-form posts (voice DNA: phrases, hooks, maxims) and long-form essays (pacing DNA: section structure, expansion). Only distilled patterns and excerpts live in-repo — no external corpus references in the skill files.
 
-Compact posts (~150–350 words) supply voice; blogs (~500–900) use an **expansion playbook** to scale without going generic.
+Compact posts (~150–350 words) supply voice; default pilear blogs are **350–600 words** (`--long` → 500–900). Use the **expansion playbook** in `voice-patterns.md` to scale without going generic.
 
 ## Architecture
 
 ```
 skills/_shared/
-  blog-voice.md          ← entry point + expansion playbook
-  voice-patterns.md      ← openings, headings, transitions, closings, essay shapes
+  blog-voice.md          ← entry point + conciseness + formatting (playbook → voice-patterns.md)
+  voice-patterns.md      ← openings, headings, transitions, closings, expansion playbook, loop 2 checklist
   voice-examples.md      ← rhythm anchors tagged by shape
-  voice-exclusions.md    ← AI tone + patterns to never mimic
-  blog-pipeline.md       ← phase 2 + 4 load voice files
+  voice-exclusions.md    ← AI tone + patterns to never mimic (loop 1 verbose cuts + loop 2 full reject)
+  blog-pipeline.md       ← full blog loop (build → stitch → correctness → 4 review loops)
 ```
 
-## Pipeline wiring
+## Pipeline wiring (current)
 
-- **Phase 2 (draft):** Load expansion playbook + voice-patterns for section shape
-- **Phase 4 (voice):** Load voice-patterns + voice-examples; run voice checklist; check voice-exclusions
-- Phases 1, 3, 5, 6 unchanged
+- **Phase 2 (build):** `blog-voice.md` conciseness + `voice-patterns.md` § section headings / Openings
+- **Loop 1 (tighten):** `voice-exclusions.md` § Verbose / padded prose; ≥15% cut unless at budget floor
+- **Loop 2 (voice):** `voice-patterns.md` checklist + `voice-examples.md`; reject `voice-exclusions.md` full list
+- **Loop 3 (mental picture):** naive-reader subagent — see mental-picture spec
+- **Loop 4 (quality):** fabric falsifiability + content rating; spot-check vs fact audit before assemble
 
-## Voice checklist (Phase 4)
+`--no-humanize` merges loops 1–2 into one polish pass on `blog/polished.md`.
+
+## Voice checklist (loop 2 — canonical in `voice-patterns.md`)
 
 1. Hook matches Ajay opening style (question, confession, or reframe)?
 2. H2 headings are statements/questions, not SEO keywords?
-3. At least one personal beat per major section (from reflection, not invented)?
+3. Post has ≥1 personal beat or concrete example from reflection where outline calls for it (post-level OK; do not invent biography)?
 4. Any consultant/SEO sentence rewritten?
 5. Close delivers reader takeaway as maxim or plain statement?
 6. No excluded patterns (AI tone, deprecated sign-offs, guru words)?

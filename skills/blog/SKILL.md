@@ -90,7 +90,7 @@ Section brief: north star, section outline bullet, wisdom excerpt, word budget, 
 
 ### Phase 3 — Stitch
 
-Main agent assembles `blog/draft.md` from sections in outline order, adds transitions and diagram image refs.
+Main agent assembles `blog/draft.md` from sections in outline order — **hard cut between sections** (no H2 bridge sentences unless a jump is genuinely confusing), trim to word budget if over, swap diagram placeholders for image refs. See `blog-pipeline.md` § Phase 3.
 
 ### Phase 3.5 — Correctness gate (required unless `--skip-correctness`)
 
@@ -109,8 +109,8 @@ Run in order; update `blog/plan.md` review table:
 
 | Loop | Output | Purpose |
 | --- | --- | --- |
-| 1 Tighten | `blog/polished.md` | Cut ≥15%; target 350–600 words; anti-padding |
-| 2 Voice | `blog/humanized.md` | Ajay voice (`--humanize` = extra casual) |
+| 1 Tighten | `blog/polished.md` | Cut ≥15% (unless at budget floor); target 350–600 words; anti-padding |
+| 2 Voice | `blog/humanized.md` | Ajay voice (`--humanize` = extra casual; `--no-humanize` = merged into loop 1) |
 | 3 Mental picture | `blog/mental-model-audit.md` | Naive-reader subagent; topic-adaptive static/dynamic check |
 | 4 Quality | audits + `first-draft-blog.md` | fabric `check_falsifiability` + `rate_content` |
 
@@ -120,7 +120,7 @@ Loop 3 uses an **isolated subagent** (draft + north star only — no teach artif
 
 - `--long` — 500–900 word budget (default is 350–600)
 - `--humanize` — extra casual in loop 2
-- `--no-humanize` — merge loops 1–2; mental picture runs on `polished.md`
+- `--no-humanize` — loop 1 also runs voice checklist; only `polished.md` (no `humanized.md`); mark plan iters 1+2 done; loops 3–4 use `polished.md`
 - `--skip-diagrams` — no diagram tasks in plan; strip placeholders
 - `--skip-correctness` — skip fact audit + concept gate (not recommended on first draft)
 - `--skip-mental-model` — skip loop 3 (not recommended on first draft)
@@ -181,7 +181,7 @@ All paths relative to `<topic-dir>/`:
 - Never skip parallel build when plan has 2+ build tasks (section or diagram) — use subagents
 - Never draft full post in main context before stitch when 2+ build tasks exist
 - Never skip correctness gate (Phase 3.5) on first draft unless `--skip-correctness` or revision mode
-- Never skip review loops 1–4 on first draft (revision mode excepted); `--no-humanize` merges loop 2 into loop 1; `--skip-mental-model` skips loop 3 only
+- Never skip review loops 1–4 on first draft (revision mode excepted); `--no-humanize` runs loop 2 checklist inside loop 1 and marks plan iters 1+2 done; `--skip-mental-model` skips loop 3 only
 - Never run mental-picture simulation with teach artifacts in subagent context — north star line only
 - Never write learning artifacts during `/blog`
 - Never auto-publish or write blog files outside `<topic-dir>/blog/`

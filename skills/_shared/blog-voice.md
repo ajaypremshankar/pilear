@@ -2,7 +2,7 @@
 
 Reference doc for the `blog` skill. Not a Pi skill — no frontmatter.
 
-Load this when writing or revising `blog/first-draft-blog.md`. Learning skills do not use this file.
+Load for all `/blog` phases — build (section subagents), stitch, review loops 1–4, and revision of `blog/first-draft-blog.md`. Learning skills do not use this file.
 
 **Voice references (load with this file for first draft and voice pass):**
 
@@ -44,7 +44,7 @@ Load this when writing or revising `blog/first-draft-blog.md`. Learning skills d
 | Personal beat + technical paragraph saying the same thing | Keep the sharper one |
 | Multi-sentence hook before the thesis | Hook = 1–2 lines; thesis immediately after |
 
-Loop 1 (**Tighten**) must cut at least **15%** word count vs `blog/draft.md` unless already under 350 words.
+Loop 1 (**Tighten**) must cut at least **15%** word count vs `blog/draft.md` unless already at or below the **budget floor** (350 default; 500 when `--long`).
 
 ## Structure (default 350–600 words; `--long` → 500–900)
 
@@ -63,15 +63,13 @@ Headings are statements or questions, not SEO keyword stacks.
 
 Compact posts are ~150–350 words; default blogs are **350–600** (`--long` → 500–900). Same voice — **not** more words, not more jargon.
 
-1. **Hook** — 1–2 lines (see `voice-patterns.md` § Openings)
-2. **Setup** — **one sentence** from reflection: confusion, mistake, or click moment
-3. **H2 sections** — user's outline; each section = claim heading + **one** of: personal beat, translated technical substance, or actionable bullets — not all three
-4. **One analogy** per post where it helps — not per section
-5. **Bullets** only for actions, max 3, with bold lead-ins when listing advice
-6. **Close** — 1–2 sentences; reader takeaway as maxim or plain statement
-7. **Optional `PS:`** — one line; don't stack with a long maxim
+**Canonical source:** `voice-patterns.md` § Expansion playbook (steps, section shapes, essay structures). Do not maintain a second copy of those rules here.
 
-Full playbook and essay shapes: `voice-patterns.md` § Expansion playbook.
+Hard constraints (must match build checklist and pipeline):
+
+- Hook 1–2 lines; setup one sentence; close 1–2 sentences
+- Each H2 = claim heading + **one** of: personal beat, translated technical substance, or actionable bullets — not all three
+- One analogy per post max; bullets for actions only (≤3)
 
 ## Formatting
 
