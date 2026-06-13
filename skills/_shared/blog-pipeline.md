@@ -248,7 +248,7 @@ Main agent (scheduler):
 **Input:** `blog/draft.md`, teach artifacts (`overview.md` required; `cheatsheet.md`, `decision.md` if present)  
 **Output:** `blog/fact-audit.md`, `blog/concept-gate.md`; revised `blog/draft.md` if needed
 
-Skip entirely when `--skip-correctness`. This is **not** the full teach Feynman gate — it verifies the **draft** matches artifacts and the author still holds the concept.
+Skip entirely when `--skip-correctness`. This is **not** the full teach Feynman gate — it verifies the **draft** matches artifacts and the author still holds the concept. Teach artifacts should already be research-backed via `research.md` from `/teach`.
 
 Mark the correctness task `done` in `blog/plan.md` only after both sub-steps pass.
 

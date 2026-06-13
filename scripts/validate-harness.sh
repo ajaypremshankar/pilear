@@ -65,7 +65,10 @@ for skill in deep-dive design-review mock-design code-explore recall; do
   require_grep "$f" "_shared/flows.md"
 done
 
+require_grep "skills/_shared/flows.md" "Research (required before teaching)"
 require_grep "skills/_shared/flows.md" "Feynman gate"
+require_grep "skills/deep-dive/SKILL.md" "research.md"
+require_grep "HARNESS.md" "research.md"
 require_grep "skills/_shared/flows.md" "Deliberate-practice feedback"
 require_grep "skills/_shared/flows.md" "Learning record"
 require_grep "skills/_shared/mission-format.md" "MISSION.md"

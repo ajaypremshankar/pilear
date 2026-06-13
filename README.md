@@ -18,7 +18,7 @@ Then, for this session's scope:
 
 > What do you already know about this?
 
-You stumble through an answer. Good — that's the point. The tutor asks simple questions on purpose. Then harder ones — tradeoffs, failure modes, what goes wrong in production.
+You stumble through an answer. Good — that's the point. The tutor researches the concept from authoritative sources first, writes `research.md`, then teaches from what it found — correcting you when your article or mental model diverges. Then simple questions on purpose. Then harder ones — tradeoffs, failure modes, what goes wrong in production.
 
 Before any file gets written, you explain the core idea without leaning on the vocabulary. Name the mechanism without using its label. If you can't, no `overview.md`. Sorry.
 
@@ -29,6 +29,7 @@ When you do pass, you get durable files under `<domain>/<subject>/`:
 - `cheatsheet.md` — the scannable version
 - `glossary.md` — canonical terms (only after you've demonstrated them)
 - `resources.md` — curated papers, docs, communities
+- `research.md` — authoritative research before teaching (sources, findings, claim checks when applicable)
 - `learning-records/` — competence ADRs (what's actually established, not just covered)
 - `reflection.md` — what shifted in your understanding
 
@@ -42,7 +43,7 @@ Then `/next` — suggestions pulled from links *you* wrote, not a syllabus someo
 
 Every session, same order:
 
-retrieve → struggle → explain → gap-fill → artifact → reflect
+retrieve → research → struggle → explain → gap-fill → artifact → reflect
 
 The tutor is instructed not to skip ahead. Long lectures without you producing something are a bug, not a feature.
 

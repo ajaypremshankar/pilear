@@ -15,7 +15,7 @@ Mode-skills point here for canonical flow fragments. Follow the sections referen
 
 1. Ask user to explain the topic **without jargon**, as to a smart sixth-grader.
 2. **Name test:** rephrase one key mechanism without using the technical term (e.g. explain leader election without saying "leader" or "election").
-3. Identify gaps between user explanation and source material.
+3. Identify gaps between user explanation and **research findings** (`research.md`, `resources.md` — not parametric recall alone).
 4. User revises once. Do not write artifacts until revision is attempted.
 
 **mock-design variant:** before the name test, ask the user to explain data flow in one paragraph **without naming components** (use roles: "the gateway", "the store"). Then run steps 2–4 above.
@@ -113,3 +113,82 @@ Write to `<learning-root>/<domain>/<subject>/learning-records/NNNN-slug.md` only
 **Use in:** `deep-dive` step 3 (struggle), optionally `recall`
 
 One applied question before the Feynman gate, e.g. "Your leader just died — what happens first?" User answers; apply **Deliberate-practice feedback** (§1.6). Do not lecture through the scenario.
+
+---
+
+## 1.10 Research (required before teaching)
+
+**Use in:** `deep-dive` (required — every session, every session scope). Do not skip because the topic seems familiar or `resources.md` already exists; refresh when scope is new or sources may be stale.
+
+**Skip in:** `recall`, `design-review`, `code-explore`, `blog` (blog audits against teach artifacts, which must already be research-backed).
+
+**Tools:** Use **WebSearch** and **WebFetch** when available. Prefer primary sources: specs, papers, official docs, author-maintained repos. Skip SEO summaries. If search tools are unavailable, say so once, lean on `resources.md` + user-supplied anchors, and record gaps in **Open research gaps** — do not teach from parametric memory alone.
+
+### Purpose
+
+Research the **concept** (and any article or doc the user supplied) **before** teaching. The agent must understand the topic from authoritative sources first — not lecture, then look things up. Claim comparison against a pasted article or the user's retrieval is part of the research output when relevant, not the reason research exists.
+
+### Steps
+
+1. **Scope the research** — what does **session scope** require understanding? (definitions, mechanisms, tradeoffs, failure modes, numbers.)
+2. **Search** — find industry-standard and primary-source material for that scope. Read pasted articles as inputs, not as ground truth.
+3. **Synthesize** — write or update `research.md` at topic root (format below): industry-standard framing, key findings, sources consulted.
+4. **Compare when applicable** — if the user pasted material or stated specific claims in retrieval, add a **Claims checked** table. Surface `contradicts` and material `differs` in chat before struggle teaches around them.
+5. **Curate** — append high-trust URLs to `resources.md` with one-line annotations.
+6. **Teach from research** — struggle, gap-fill, and artifacts ground in `research.md`. Do not write `overview.md` while unresolved `contradicts` rows remain in **Claims checked**.
+
+### Claim alignment (when claims exist)
+
+| Alignment | Meaning |
+| --- | --- |
+| `supported` | Matches authoritative / industry-standard source |
+| `differs` | Partial truth or common simplification — teach the nuance |
+| `contradicts` | User or pasted source is wrong vs authoritative source — correct before artifacts |
+| `personal` | Opinion or context-specific — OK if labeled |
+| `unverified` | No authoritative source found — defer; do not teach as fact |
+
+### `research.md` format
+
+```markdown
+# Research — <topic>
+
+Scope: <session scope>
+Researched: YYYY-MM-DD
+
+## Industry-standard framing
+
+How authoritative sources define this concept for session scope (2–4 sentences).
+
+## Key findings
+
+- Mechanism / definition ...
+- Tradeoff ...
+- Failure mode ...
+
+## Sources consulted
+
+- [Title](url) — what it contributed
+
+## Claims checked
+
+_Omit this section when no article or user claims to compare._
+
+| # | Claim (source) | Authoritative source | Alignment | Note |
+| --- | --- | --- | --- | --- |
+| 1 | ... (article §2) | [Spec §3](https://...) | supported | — |
+| 2 | ... (user retrieval) | [Paper](https://...) | differs | Article omits liveness caveat |
+
+## Open research gaps
+
+- Areas where no authoritative source was found or scope was deferred
+```
+
+### Pasted-article variant
+
+When the user supplies an article:
+
+1. **Predict** and **read** per HARNESS — engagement first, no summary lecture.
+2. **Research in parallel** — study the article *and* independently research the concept from authoritative sources.
+3. Write `research.md` before factual teaching during struggle.
+4. After the user explains the core claim, compare to **research findings**, not to the article alone.
+5. If the article is weak or wrong on key points, say so once; anchor teaching on research, not the paste.
